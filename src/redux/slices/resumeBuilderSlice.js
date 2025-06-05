@@ -21,7 +21,7 @@ export const getResumeURL = createAsyncThunk(
   "resume/getURL",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await apiInstance.get("/resume/url");
+      const res = await apiInstance.get("/file-upload/resume");
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "URL fetch failed");
@@ -34,9 +34,7 @@ export const createResume = createAsyncThunk(
   "resume/create",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("thunk chala",data);
-      const res = await apiInstance.post("/resume-builder/create", data);
-      console.log(res);
+      const res = await apiInstance.post("/resume-builder/create", data); 
       return res.data;
     } catch (err) {
       console.log(err);
@@ -130,6 +128,7 @@ const initialState = {
   resumes: [],
   templates: [],
   pdfURL: null,
+  uploadedResumeUrl:null,
   loading: false,
   error: null,
 };
@@ -149,7 +148,11 @@ const resumeBuilderSlice = createSlice({
       .addCase(listResumeTemplates.fulfilled, (state, action) => {
         state.templates = action.payload;
       })
-
+      
+      //get resume url uploaded
+      .addCase(getResumeURL.fulfilled,(state,action)=>{
+        state.uploadedResumeUrl = action.payload;
+      })
       // Get Resume
       .addCase(getResume.fulfilled, (state, action) => {
         const existing = state.resumes.find(

@@ -11,15 +11,7 @@ const UpdateEmployerProfile = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      company_name: "Updated Tech Solutions Ltd",
-      company_website: "https://updated-tech.example.com",
-      company_size: "LARGE",
-      phone_number: "+12345678902",
-      role_in_company: "Head of HR",
-    },
-  });
+  } = useForm();
 
   const onSubmit = async (data) => {
     const res = await dispatch(updateEmployerProfile(data));

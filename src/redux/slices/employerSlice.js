@@ -17,9 +17,12 @@ export const getEmployerProfile = createAsyncThunk(
 // ✅ Update Employer Profile
 export const updateEmployerProfile = createAsyncThunk(
   "employer/updateProfile",
-  async (data, { rejectWithValue }) => {
+  async ({data,thunkAPI}, { rejectWithValue }) => {
     try {
+      console.log("thunk chaka",data);
       const res = await apiInstance.put("/employers/me", data);
+      await thunkAPI.dispatch(getEmployerProfile());
+      console.log(res);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to update profile");

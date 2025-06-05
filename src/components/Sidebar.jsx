@@ -31,11 +31,6 @@ const Sidebar = ({ role = 'jobseeker' }) => {
       icon: <Pencil size={20} />,
     },
     {
-      name: 'Update profile',
-      path: '/employer/update-profile',
-      icon: <Pencil size={20} />,
-    },
-    {
       name: 'Your Listed Jobs',
       path: '/employer/created-jobs',
       icon: <FolderOpen size={20} />,

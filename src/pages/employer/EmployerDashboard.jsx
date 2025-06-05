@@ -3,17 +3,23 @@ import {
   Mail,
   Phone,
   User,
+  Pencil,
   Globe,
   Briefcase,
 } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { getEmployerProfile } from '../../redux/slices/employerSlice';
 
 const EmployerDashboard = () => {
+  const dispatch = useDispatch();
   const { profile } = useSelector(state => state.employer);
-
+  useEffect(()=>{
+        dispatch(getEmployerProfile());
+  },[dispatch]);
   return (
     <div className="flex bg-black text-white min-h-screen items-start sm:items-center pt-10 sm:pt-0">
       {/* Sidebar - Hidden on mobile */}
@@ -33,9 +39,10 @@ const EmployerDashboard = () => {
     <div className="md:absolute md:top-4 md:right-4 flex justify-center md:justify-end mb-4 md:mb-0">
       <Link
         to="/employer/update-profile"
-        className="inline-block px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm md:text-base font-semibold rounded-lg shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
+        className="inline-block px-4 flex py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm md:text-base font-semibold rounded-lg shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
       >
-        Update Profile
+       
+         Update Profile
       </Link>
     </div>
 
