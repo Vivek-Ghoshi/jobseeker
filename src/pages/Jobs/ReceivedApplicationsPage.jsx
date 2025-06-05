@@ -34,7 +34,7 @@ const ReceivedApplicationsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white px-4 py-10">
+    <div className="min-h-screen bg-black text-white px-4 py-10">
       <h1 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-10 flex items-center gap-3 justify-center">
         <MailOpen className="w-7 h-7 text-cyan-500" />
         Received Job Applications
@@ -56,10 +56,10 @@ const ReceivedApplicationsPage = () => {
                       {app.job_seeker_name}
                     </p>
                   </div>
-                  <div className={`px-3 py-1 rounded-full text-xs font-semibold 
-                    ${app.status === 'REVIEWED' ? 'bg-emerald-700 text-emerald-200' :
-                      app.status === 'REJECTED' ? 'bg-red-700 text-red-200' :
-                        'bg-yellow-700 text-yellow-200'}`}
+                  <div className={`px-3 py-1 capitalize rounded-full text-xs font-semibold text-white font-semibold
+                    ${app.status === 'REVIEWED' ? 'bg-emerald-700 ' :
+                      app.status === 'REJECTED' ? 'bg-red-700 text-red-400 ' :
+                        'bg-yellow-700 '}`}
                   >
                     {app.status}
                   </div>
@@ -81,6 +81,7 @@ const ReceivedApplicationsPage = () => {
                   <Download className="text-cyan-400 w-5 h-5" />
                   <a
                     href={app.resume_url}
+                    onClick={()=> resumeUrlHandler()}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-400 underline hover:text-emerald-300 transition duration-200 text-sm md:text-base"

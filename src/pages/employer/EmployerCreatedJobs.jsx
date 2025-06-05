@@ -19,7 +19,7 @@ const EmployerCreatedJobs = () => {
     dispatch(deleteJob(id));
   }
   return (
-    <div className="min-h-screen bg-[#0f172a] px-4 py-10 flex flex-col gap-6 items-center">
+    <div className="min-h-screen bg-black px-4 py-10 flex flex-col gap-6 items-center">
       <h2 className="font-semibold capitalize text-blue-400">all job openings created by you...</h2>
 
       {jobs &&
@@ -47,7 +47,9 @@ const EmployerCreatedJobs = () => {
 
             {/* Actions */}
             <div className="flex gap-3 md:flex-col">
-              <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500 transition text-white text-sm font-medium">
+              <button
+              onClick={() => navigate(`/employer/update-job/${job.id}`)}
+               className="flex items-center gap-2 px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500 transition text-white text-sm font-medium">
                 <Pencil className="w-4 h-4" />
                 Update
               </button>

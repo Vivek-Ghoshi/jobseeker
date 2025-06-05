@@ -1,106 +1,125 @@
 import {
   Briefcase,
   MapPin,
-  DollarSign,
   IndianRupee,
   ClipboardList,
-  BookOpen,
   ChevronRight,
 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { listAllJobs } from '../../redux/slices/jobSeekerSlice';
-
+import { motion } from 'framer-motion';
 
 const AllListedJobs = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const {jobs}= useSelector(state => state.jobseeker);
-    console.log(jobs)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { jobs } = useSelector((state) => state.jobseeker);
 
-    useEffect(()=>{
-       dispatch(listAllJobs());
-    },[dispatch]);
+  useEffect(() => {
+    dispatch(listAllJobs());
+  }, [dispatch]);
 
-    const applyHandler = (index)=>{
+  const applyHandler = (index) => {
     navigate(`/job-application/${index}`);
-}
+  };
+
   return (
-    <div className="min-h-screen bg-[#0f172a] px-4 py-10 flex flex-col gap-6 items-center ">
-      {jobs && jobs.map((job, index) => (
-        <div
-          key={index}
-          className="w-full max-w-6xl bg-[#1e293b] rounded-xl shadow-md hover:shadow-cyan-600/30 transition-all duration-300 p-6 md:p-8 space-y-4 h-[40vh] flex flex-col justify-between mb-10 "
-        >
-          {/* Top Row: Title & Status */}
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl md:text-2xl font-bold text-cyan-400 flex items-center gap-2">
-              <Briefcase className="w-5 h-5 text-red-500" />
-              {job.title}
-            </h2>
-            {job.is_active && (
-              <span className="text-green-400 text-xs md:text-sm font-semibold bg-green-900 px-3 py-1 rounded-full">
-                Active
-              </span>
-            )}
-          </div>
+    <div className="min-h-screen w-full bg-black px-4 py-10 flex flex-col items-center gap-10">
+      <motion.h1
+        className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        All Available Jobs
+      </motion.h1>
 
-          {/* Description */}
-          <p className="text-gray-300 text-sm md:text-base">{job.description}</p>
+      {jobs &&
+        jobs.map((job, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
+            className="w-full max-w-4xl bg-[#111827] rounded-xl shadow-lg hover:shadow-sky-500/30 transition-all duration-300 p-6 sm:p-8 flex flex-col justify-between gap-6 border border-zinc-700"
+          >
+            {/* Top Row */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <h2 className="text-xl sm:text-2xl font-semibold text-white flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-sky-400" />
+                {job.title}
+              </h2>
 
-          {/* Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm md:text-base">
-            <div className="flex items-center gap-2">
-              <MapPin className="text-cyan-400 w-4 h-4" />
-              <span className="text-white">{job.location}</span>
+              {job.is_active && (
+                <span className="text-green-400 text-xs sm:text-sm font-semibold bg-green-900 px-3 py-1 rounded-full animate-pulse">
+                  Active
+                </span>
+              )}
             </div>
-            <div className="flex items-center gap-2">
-              <ClipboardList className="text-cyan-400 w-4 h-4" />
-              <span className="text-white capitalize">{job.job_type.replace('_', ' ')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <IndianRupee className="text-cyan-400 w-4 h-4" />
-              <span className="text-white">
+
+            {/* Description */}
+            <p className="text-gray-400 text-sm">{job.description}</p>
+
+            {/* Info Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+              <div className="flex items-center gap-2 text-white">
+                <MapPin className="text-sky-400 w-4 h-4" />
+                {job.location}
+              </div>
+              <div className="flex items-center gap-2 text-white">
+                <ClipboardList className="text-sky-400 w-4 h-4" />
+                {job.job_type.replace('_', ' ')}
+              </div>
+              <div className="flex items-center gap-2 text-white">
+                <IndianRupee className="text-sky-400 w-4 h-4" />
                 {job.salary_min} - {job.salary_max}
-              </span>
-            </div>
-          </div>
-
-          {/* Requirements and Responsibilities */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-            <div>
-              <p className="text-gray-400 text-xs mb-1">Requirements</p>
-              <div className="flex flex-wrap gap-2">
-                {job.requirements.map((req, idx) => (
-                  <span
-                    key={idx}
-                    className="text-xs bg-cyan-700 text-white px-2 py-1 rounded-full hover:bg-cyan-500 transition"
-                  >
-                    {req}
-                  </span>
-                ))}
               </div>
             </div>
 
-            <div>
-              <p className="text-gray-400 text-xs mb-1">Responsibilities</p>
-              <ul className="list-disc list-inside text-gray-300 text-xs">
-                {job.responsibilities.map((resp, idx) => (
-                  <li key={idx}>{resp}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+            {/* Requirements and Responsibilities */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-gray-500 text-xs font-medium mb-1">
+                  Requirements
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {job.requirements.map((req, idx) => (
+                    <span
+                      key={idx}
+                      className="text-xs bg-sky-700 text-white px-2 py-1 rounded-full hover:bg-sky-600 transition duration-200"
+                    >
+                      {req}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-          {/* Apply Button */}
-          <div className="flex justify-end mt-2">
-            <button onClick={()=> applyHandler(job.id)} className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium px-5 py-2 rounded-md transition">
-              Apply Now <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      ))}
+              <div>
+                <p className="text-gray-500 text-xs font-medium mb-1">
+                  Responsibilities
+                </p>
+                <ul className="list-disc list-inside text-gray-300 text-xs">
+                  {job.responsibilities.map((resp, idx) => (
+                    <li key={idx}>{resp}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Apply Button */}
+            <div className="flex justify-end">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => applyHandler(job.id)}
+                className="flex items-center gap-2 bg-sky-600 hover:bg-sky-500 transition text-white text-sm font-medium px-5 py-2 rounded-md"
+              >
+                Apply Now <ChevronRight className="w-4 h-4" />
+              </motion.button>
+            </div>
+          </motion.div>
+        ))}
     </div>
   );
 };

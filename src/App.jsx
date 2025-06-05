@@ -19,6 +19,7 @@ import ResumeTemplates from './pages/resume/ResumeTemplates'
 import ResumeBuilder from './pages/resume/ResumeBuilder'
 import AllResumeList from './pages/resume/AllResumeList'
 import ResumeScoreAnalysis from './pages/resume/ResumeScoreAnalysis'
+import UpdateJob from './pages/Jobs/UpdateJob'
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/applications/employer/job/:id' element={<ReceivedApplicationsPage/>}/>
         <Route path='/application/:id' element={<ViewApplicationPage/>}/>
         <Route path='/employer/resume-score' element={<ResumeScoreAnalysis/>}/>
+        <Route path='/employer/update-job/:id' element={<UpdateJob/>}/>
 
         
         <Route path='/resume/builder' element={<ResumeBuilder/>}/>

@@ -40,7 +40,7 @@ const CreateJobForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-black flex items-center justify-center p-6">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-[#1e293b] text-white w-full max-w-5xl rounded-xl shadow-2xl p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8 animate-fadeIn"

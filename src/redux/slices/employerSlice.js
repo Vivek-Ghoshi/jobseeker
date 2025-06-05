@@ -59,7 +59,6 @@ export const deleteJob = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const res = await apiInstance.delete(`/jobs/${id}`);
-      console.log(res);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to delete job");
@@ -111,7 +110,6 @@ export const scoreApplicationResume = createAsyncThunk(
   "employer/scoreResume",
   async (appId, { rejectWithValue }) => {
     try {
-      console.log("thunk chala",appId);
       const res = await apiInstance.get(`/resume-analysis/applications/${appId}/score`);
       console.log(res);
       return res.data;
@@ -142,7 +140,7 @@ export const getApplication = createAsyncThunk(
       const res = await apiInstance.get(`/applications/${applicationId}`);
       return res.data;
     } catch (err) {
-
+      console.log(err);
       return rejectWithValue(err.response?.data?.message || "Failed to fetch application");
     }
   }

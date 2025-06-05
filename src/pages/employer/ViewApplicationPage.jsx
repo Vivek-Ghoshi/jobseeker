@@ -1,4 +1,4 @@
-import { User, FileText, Download, Mail } from "lucide-react";
+import { User, FileText, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,56 +7,80 @@ import {
   updateApplicationStatus,
 } from "../../redux/slices/employerSlice";
 import { useParams } from "react-router";
+import { motion } from "framer-motion";
 
 const ViewApplicationPage = () => {
   const { id: appId } = useParams();
-  const [expanded, setExpanded] = useState(false);
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const { selectedApplication } = useSelector((state) => state.employer);
 
+  const [status, setStatus] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [loadingApp, setLoadingApp] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    dispatch(getApplication(appId));
-  }, [dispatch]);
+    const fetchApp = async () => {
+      try {
+        setLoadingApp(true);
+        setError(null);
+        const result = await dispatch(getApplication(appId));
+        if (!getApplication.fulfilled.match(result)) {
+          throw new Error("Failed to fetch application");
+        }
+      } catch (err) {
+        setError(err.message || "Something went wrong.");
+      } finally {
+        setLoadingApp(false);
+      }
+    };
+
+    fetchApp();
+  }, [dispatch, appId]);
 
   useEffect(() => {
     if (status) {
-      setLoading(true);
-      handleUpdate();
+      setLoadingStatus(true);
+      dispatch(updateApplicationStatus({ id: appId, data: { status } }))
+        .then((res) => {
+          if (updateApplicationStatus.fulfilled.match(res)) {
+            setLoadingStatus(false);
+          }
+        })
+        .catch(() => setLoadingStatus(false));
     }
-  }, [dispatch,status]);
+  }, [status]);
 
-  const handleUpdate = async () => {
-    const res = await dispatch(
-      updateApplicationStatus({ id: appId, data: { status } })
+  if (loadingApp) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-black text-white">
+        <p className="text-cyan-400 animate-pulse text-lg">Loading Application...</p>
+      </div>
     );
-    if (updateApplicationStatus.fulfilled.match(res)) {
-      setLoading(false);
-    }
-  };
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-black text-red-500">
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white px-4 py-10 flex items-center justify-center">
-      <div className="w-full max-w-4xl bg-[#1e293b] rounded-xl shadow-lg p-6 md:p-10 transition-all duration-300 hover:shadow-cyan-700/30">
-        {/* Header */}
-        <h1 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
-          <User className="w-7 h-7 text-cyan-500" />
+    <motion.div
+      className="min-h-screen bg-black text-white px-4 py-10 flex justify-center items-start"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="w-full max-w-2xl bg-[#1e293b] rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-cyan-700/30">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center gap-3">
+          <User className="w-6 h-6 text-zinc-200" />
           Application Details
         </h1>
-
-        {/* Applicant Info */}
-        {/* <div className="mb-6">
-          <p className="text-gray-400 text-sm">Candidate Name</p>
-          <p className="text-white font-medium text-lg">
-            {application.applicant_name}
-          </p>
-          <div className="flex items-center gap-2 mt-2">
-            <Mail className="text-cyan-400 w-5 h-5" />
-            <p className="text-white font-medium">{application.email}</p>
-          </div>
-        </div> */}
 
         {/* Status Dropdown */}
         <div className="mb-6">
@@ -64,15 +88,16 @@ const ViewApplicationPage = () => {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full md:w-1/2 bg-[#334155] text-white p-2 rounded-md border border-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-300"
+            className="w-full bg-[#334155] text-white p-2 rounded-md border border-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-300"
           >
+            <option value="">Update Status</option>
             <option value="pending">Pending</option>
             <option value="reviewed">Reviewed</option>
             <option value="rejected">Rejected</option>
             <option value="accepted">Accepted</option>
             <option value="interview">Interview</option>
           </select>
-          {loading && (
+          {loadingStatus && (
             <p className="text-sm text-cyan-400 mt-2">Updating status...</p>
           )}
         </div>
@@ -83,16 +108,15 @@ const ViewApplicationPage = () => {
             <FileText className="text-cyan-400 w-5 h-5" />
             <p className="text-gray-400 text-sm">Cover Letter</p>
           </div>
-
-          <div
+          <motion.div
             className={`relative text-white font-normal text-sm md:text-base transition-all duration-300 ${
               expanded ? "max-h-[300px] overflow-y-auto pr-2" : "line-clamp-6"
             }`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           >
-            {selectedApplication.cover_letter}
-          </div>
-
-          {/* See More / Less Button */}
+            {selectedApplication?.cover_letter || "No cover letter provided."}
+          </motion.div>
           <button
             className="mt-3 text-cyan-400 text-sm hover:text-cyan-300 underline transition"
             onClick={() => setExpanded((prev) => !prev)}
@@ -104,18 +128,22 @@ const ViewApplicationPage = () => {
         {/* Resume Download */}
         <div className="flex justify-between items-center border-t border-cyan-800 pt-5 mt-6">
           <p className="text-sm text-gray-400">Resume</p>
-          <a
-            href={selectedApplication.resume_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-cyan-600 text-white px-5 py-2 rounded-md text-sm font-semibold hover:bg-cyan-500 transition duration-200 flex items-center gap-2"
-          >
-            <Download className="w-4 h-4" />
-            Download Resume
-          </a>
+          {selectedApplication?.resume_url ? (
+            <a
+              href={selectedApplication.resume_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-cyan-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-cyan-500 transition duration-200 flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Download Resume
+            </a>
+          ) : (
+            <span className="text-red-400 text-sm">Resume not available</span>
+          )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

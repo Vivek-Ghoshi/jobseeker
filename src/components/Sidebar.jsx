@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Menu,
-  X,
   PlusCircle,
-  FileText,
   Briefcase,
   Pencil,
-  ClipboardList,
   UserPlus,
   FolderOpen,
   FileEdit,
@@ -15,8 +11,6 @@ import {
 } from 'lucide-react';
 
 const Sidebar = ({ role = 'jobseeker' }) => {
-  const [open, setOpen] = useState(false);
-
   const commonLinks = [
     {
       name: 'Create Resume',
@@ -81,53 +75,24 @@ const Sidebar = ({ role = 'jobseeker' }) => {
     : [...jobseekerLinks, ...commonLinks];
 
   return (
-    <>
-      {/* Sidebar for large screens */}
-      <div className="hidden md:flex flex-col w-64 h-screen bg-[#0f172a] text-white shadow-lg fixed py-2 border-r-[1px] border-zinc-400 ">
-        <div className="text-2xl font-bold p-6 border-b border-gray-700">
-          {role === 'employer' ? 'Employer Panel' : 'JobSeeker Panel'}
-        </div>
-        <div className="flex-1 p-4 space-y-4">
-          {links.map((item, index) => (
-            <Link
-              key={index}
-              to={item.path}
-              className="flex items-center space-x-3 px-4 py-2 rounded-md hover:bg-cyan-700 hover:scale-[1.02] transition-all duration-200"
-            >
-              {item.icon}
-              <span>{item.name}</span>
-            </Link>
-          ))}
-        </div>
+    // Sidebar only visible on md+ screens
+    <div className="hidden md:flex flex-col w-64 h-screen bg-black text-white shadow-lg  py-2 border-r border-zinc-800">
+      <div className="text-2xl font-extrabold p-6 border-b border-zinc-800 tracking-wide text-cyan-400">
+        {role === 'employer' ? 'Employer Panel' : 'JobSeeker Panel'}
       </div>
-
-      {/* Mobile hamburger */}
-      <div className="md:hidden fixed top-4 left-4 z-50">
-        <button onClick={() => setOpen(!open)}>
-          {open ? <X size={30} className="text-white" /> : <Menu size={30} className="text-white" />}
-        </button>
+      <div className="flex-1 p-4 space-y-2">
+        {links.map((item, index) => (
+          <Link
+            key={index}
+            to={item.path}
+            className="flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-200 bg-zinc-900 hover:bg-cyan-700/20 hover:scale-[1.02] hover:shadow-md"
+          >
+            <div className="text-cyan-400">{item.icon}</div>
+            <span className="font-medium">{item.name}</span>
+          </Link>
+        ))}
       </div>
-
-      {/* Mobile sidebar */}
-      {open && (
-        <div className="md:hidden fixed top-0 left-0 w-64 h-full bg-[#0f172a] z-40 p-6 space-y-4 shadow-xl transition-all duration-300">
-          <h2 className="text-2xl font-bold mb-4">
-            {role === 'employer' ? 'Employer Panel' : 'JobSeeker Panel'}
-          </h2>
-          {links.map((item, index) => (
-            <Link
-              key={index}
-              to={item.path}
-              onClick={() => setOpen(false)}
-              className="flex items-center space-x-3 px-4 py-2 rounded-md hover:bg-cyan-700 hover:scale-[1.02] transition-all duration-200"
-            >
-              {item.icon}
-              <span>{item.name}</span>
-            </Link>
-          ))}
-        </div>
-      )}
-    </>
+    </div>
   );
 };
 

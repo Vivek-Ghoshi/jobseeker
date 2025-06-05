@@ -1,104 +1,121 @@
 import { useState } from "react";
-import { Mail, Phone, User, BookOpen, Code, Briefcase } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  User,
+  BookOpen,
+  Code,
+  Briefcase,
+} from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import UploadResume from "../../components/UploadResume";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 const JobseekerDashboard = () => {
-  const {profile} = useSelector(state => state.jobseeker);
+  const { profile } = useSelector((state) => state.jobseeker);
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="min-h-[42.1vw] flex bg-[#0f172a] text-white overflow-hidden">
+    <div className="flex flex-col md:flex-row w-full min-h-screen bg-black text-white">
+      {/* Sidebar */}
       <Sidebar role="jobseeker" />
 
-      <div className="flex-1 overflow-auto p-6 md:p-10 flex justify-center items-center">
-        <div className="ml-64 w-full max-w-4xl bg-[#1e293b] rounded-xl shadow-lg p-6 md:p-10 transition-all duration-300 hover:shadow-cyan-700/30">
-          <div className="w-full flex items-center justify-between py-4 px-6">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-cyan-400 flex items-center justify-center gap-2">
-                <User className="w-8 h-8 text-cyan-500" />
+      {/* Dashboard Content */}
+      <div className="flex-1 mt-20 md:mt-0 md:ml-0 px-4 py-6 sm:px-6 md:px-30 py-12">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-5xl mx-auto bg-[#0d1117] rounded-2xl shadow-xl border border-[#1e293b] px-6 py-8 sm:px-10 sm:py-10"
+        >
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-cyan-400 flex items-center justify-center sm:justify-start gap-2">
+                <User className="w-7 h-7 text-cyan-500" />
                 {profile.first_name} {profile.last_name}
               </h1>
-              <p className="text-gray-400 mt-2 text-sm md:text-base">
+              <p className="text-gray-400 mt-1 text-sm sm:text-base italic">
                 {profile.title}
               </p>
             </div>
 
-            {/* Upload Button */}
-            <div className="flex justify-center mb-8">
-              <button
-                onClick={() => setShowModal(true)}
-                className="bg-cyan-600 hover:bg-cyan-500 px-6 py-2 rounded-md text-sm font-semibold"
-              >
-                Upload Resume
-              </button>
-            </div>
+            <button
+              onClick={() => setShowModal(true)}
+              className="bg-cyan-600 hover:bg-cyan-500 hover:scale-105 transition-all px-5 py-2 text-sm rounded-md shadow-lg font-semibold"
+            >
+              Upload Resume
+            </button>
           </div>
 
           {/* Profile Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm md:text-base">
-            <div className="flex items-start gap-3">
-              <Mail className="text-cyan-400 w-6 h-6 mt-1" />
-              <div>
-                <p className="text-gray-400 mb-1">Email</p>
-                <p className="text-white font-medium">{profile.email}</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Phone className="text-cyan-400 w-6 h-6 mt-1" />
-              <div>
-                <p className="text-gray-400 mb-1">Phone Number</p>
-                <p className="text-white font-medium">
-                  {profile.phone_number}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Briefcase className="text-cyan-400 w-6 h-6 mt-1" />
-              <div>
-                <p className="text-gray-400 mb-1">Experience</p>
-                <p className="text-white font-medium">
-                  {profile.profile.experience_years} years
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Code className="text-cyan-400 w-6 h-6 mt-1" />
-              <div>
-                <p className="text-gray-400 mb-1">Skills</p>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {profile.profile.skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      className="bg-cyan-600 text-white px-3 py-1 rounded-full text-sm hover:bg-cyan-500 transition duration-200"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 md:col-span-2">
-              <BookOpen className="text-cyan-400 w-6 h-6 mt-1" />
-              <div>
-                <p className="text-gray-400 mb-1">Bio</p>
-                <p className="text-white font-medium">{profile.profile.bio}</p>
-              </div>
-            </div>
-          </div>
-        </div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm md:text-base"
+          >
+            <ProfileItem icon={<Mail />} label="Email" value={profile.email} />
+            <ProfileItem icon={<Phone />} label="Phone" value={profile.phone_number} />
+            <ProfileItem icon={<Briefcase />} label="Experience" value={`${profile.profile.experience_years} years`} />
+            <SkillItem icon={<Code />} skills={profile.profile.skills} />
+            <BioItem icon={<BookOpen />} bio={profile.profile.bio} />
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* Resume Upload Modal */}
       {showModal && <UploadResume onClose={() => setShowModal(false)} />}
     </div>
   );
 };
+
+const ProfileItem = ({ icon, label, value }) => (
+  <motion.div
+    whileHover={{ scale: 1.02 }}
+    className="flex items-start gap-3 bg-[#1f2937] rounded-xl p-4 hover:bg-[#273344] transition"
+  >
+    <div className="text-cyan-400 mt-1">{icon}</div>
+    <div>
+      <p className="text-gray-400 text-xs mb-1">{label}</p>
+      <p className="text-white font-semibold break-all">{value}</p>
+    </div>
+  </motion.div>
+);
+
+const SkillItem = ({ icon, skills }) => (
+  <motion.div
+    whileHover={{ scale: 1.02 }}
+    className="flex flex-col items-start gap-3 bg-[#1f2937] rounded-xl p-4 hover:bg-[#273344] transition"
+  >
+    <div className="flex items-center gap-2">
+      <div className="text-cyan-400">{icon}</div>
+      <p className="text-gray-400 text-xs">Skills</p>
+    </div>
+    <div className="flex flex-wrap gap-2 mt-1">
+      {skills.map((skill, index) => (
+        <span
+          key={index}
+          className="bg-cyan-700 hover:bg-cyan-600 text-white px-3 py-1 rounded-full text-sm transition-all"
+        >
+          {skill}
+        </span>
+      ))}
+    </div>
+  </motion.div>
+);
+
+const BioItem = ({ icon, bio }) => (
+  <motion.div
+    whileHover={{ scale: 1.02 }}
+    className="flex items-start gap-3 bg-[#1f2937] rounded-xl p-4 md:col-span-2 hover:bg-[#273344] transition"
+  >
+    <div className="text-cyan-400 mt-1">{icon}</div>
+    <div>
+      <p className="text-gray-400 text-xs mb-1">Bio</p>
+      <p className="text-white font-medium leading-relaxed">{bio}</p>
+    </div>
+  </motion.div>
+);
 
 export default JobseekerDashboard;

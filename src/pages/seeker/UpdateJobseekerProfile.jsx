@@ -44,7 +44,7 @@ const UpdateJobseekerProfile = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0f172a] p-6">
+    <div className="min-h-screen flex items-center justify-center bg-black p-6">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-[#1e293b] w-full max-w-5xl rounded-2xl shadow-xl p-8 md:p-12 text-white grid grid-cols-1 md:grid-cols-2 gap-8 animate-fadeIn"

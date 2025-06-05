@@ -37,7 +37,7 @@ const AllResumeList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white py-12 px-4 md:px-12 relative">
+    <div className="min-h-screen bg-black text-white py-12 px-4 md:px-12 relative">
       {/* Title */}
       <h1 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-10 text-center">
         <FileText className="inline-block w-8 h-8 mr-2 text-cyan-500" />
