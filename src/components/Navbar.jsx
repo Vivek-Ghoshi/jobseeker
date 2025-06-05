@@ -41,7 +41,7 @@ const Navbar = () => {
             </button>
 
             <Link
-              to={`/dashboard/${user.role}`}
+              to={`/dashboard/${user?.role}`}
               className="flex items-center hover:text-cyan-400 transition"
             >
               <LayoutDashboard className="mr-2" size={20} />
@@ -81,7 +81,7 @@ const Navbar = () => {
           </button>
 
           <Link
-            to="/dashboard/jobseeker"
+            to={`/dashboard/${user?.role}`}
             onClick={() => setIsOpen(false)}
             className="flex items-center w-full hover:text-cyan-400 transition"
           >
