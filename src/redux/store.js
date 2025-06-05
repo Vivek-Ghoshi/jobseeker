@@ -1,0 +1,38 @@
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+import authReducer from '../redux/slices/authSlice';
+import employerReducer from '../redux/slices/employerSlice';
+import jobSeekerReducer from '../redux/slices/jobSeekerSlice';
+import textToSpeechReducer from '../redux/slices/textToSpeechSlice';
+import resumeBuilderReducer from '../redux/slices/resumeBuilderSlice'
+
+// Persist config only for 'auth'
+const persistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['auth','employer','jobseeker','textToSpeech','resumeBuilder'],
+};
+
+// Combine all reducers
+const rootReducer = combineReducers({
+  auth: authReducer, // only auth is persisted
+  employer: employerReducer,
+  jobseeker: jobSeekerReducer,
+  textToSpeech: textToSpeechReducer,
+  resumebuilder: resumeBuilderReducer
+});
+const persistedRootReducer = persistReducer(persistConfig, rootReducer);
+// Create store
+const store = configureStore({
+  reducer: persistedRootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Needed for redux-persist
+    }),
+});
+
+const persistor = persistStore(store);
+export default persistedRootReducer;
+export { store, persistor };
