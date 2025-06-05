@@ -17,7 +17,7 @@ const JobseekerDashboard = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="flex flex-col md:flex-row w-full min-h-screen bg-black text-white">
+    <div className="flex flex-col md:flex-row w-full min-h-screen bg-black text-white items-start sm:items-center sm:pt-0">
       {/* Sidebar */}
       <Sidebar role="jobseeker" />
 

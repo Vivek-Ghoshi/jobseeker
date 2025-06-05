@@ -30,7 +30,7 @@ const JobApplicationPage = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-black text-white px-4 py-10 flex items-center justify-center"
+      className="min-h-screen bg-black text-white px-4 py-10 flex items-center justify-center items-start sm:items-center pt-10 sm:pt-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}

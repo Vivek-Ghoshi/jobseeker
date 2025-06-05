@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { createResume } from "../../redux/slices/resumeBuilderSlice";
 import { useNavigate } from "react-router";
+import { Loader } from "lucide-react";
 
 const sections = [
   "Personal Info",
@@ -18,7 +19,7 @@ const ResumeBuilder = () => {
   const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(0);
   const [shake, setShake] = useState(false);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!document.getElementById("shake-style")) {
@@ -44,7 +45,6 @@ const ResumeBuilder = () => {
     handleSubmit,
     control,
     trigger,
-    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -106,33 +106,34 @@ const ResumeBuilder = () => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
 
-  const transformData = (data) => {
-    return {
-      ...data,
-      skills: data.skills
-        ? data.skills.split(",").map((skill) => skill.trim()).filter(Boolean)
-        : [],
-      experience: data.experience.map((exp) => ({
-        ...exp,
-        description: [
-          exp.description?.[0],
-          exp.description?.[1],
-          exp.description?.[2],
-        ].filter(Boolean),
-      })),
-      projects: data.projects.map((proj) => ({
-        ...proj,
-        technologies: [
-          proj.technologies?.[0],
-          proj.technologies?.[1],
-          proj.technologies?.[2],
-        ].filter(Boolean),
-      })),
-    };
-  };
+  const transformData = (data) => ({
+    ...data,
+    skills: data.skills
+      ? data.skills
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [],
+    experience: data.experience.map((exp) => ({
+      ...exp,
+      description: [
+        exp.description?.[0],
+        exp.description?.[1],
+        exp.description?.[2],
+      ].filter(Boolean),
+    })),
+    projects: data.projects.map((proj) => ({
+      ...proj,
+      technologies: [
+        proj.technologies?.[0],
+        proj.technologies?.[1],
+        proj.technologies?.[2],
+      ].filter(Boolean),
+    })),
+  });
 
   const onSubmit = async (formData) => {
-    const isValid = await trigger(); // Final validation
+    const isValid = await trigger();
     if (!isValid) {
       setShake(true);
       setTimeout(() => setShake(false), 400);
@@ -141,121 +142,111 @@ const ResumeBuilder = () => {
 
     const formattedData = transformData(formData);
     setLoading(true);
-   const res = await dispatch(createResume(formattedData));
-   if(createResume.fulfilled.match(res)){
+    const res = await dispatch(createResume(formattedData));
+    if (createResume.fulfilled.match(res)) {
       setLoading(false);
       navigate("/all-resumelist");
-
-   }
-
+    }
   };
+
+  const inputClass =
+    "w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500";
+  const textAreaClass =
+    "w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500";
 
   const sectionUI = {
     "Personal Info": (
       <>
-        <h2 className="text-xl font-semibold text-teal-400 mb-4">
+        <h2 className="text-xl font-semibold text-teal-400 mb-6 text-center">
           Personal Info
         </h2>
-        <div className="grid grid-cols-2 gap-y-4 gap-x-10 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             {...register("personal_info.full_name", { required: true })}
             placeholder="Full Name"
-            className="input"
+            className={inputClass}
           />
           <input
             {...register("personal_info.email", { required: true })}
             placeholder="Email"
-            className="input"
+            className={inputClass}
           />
           <input
             {...register("personal_info.phone", { required: true })}
             placeholder="Phone"
-            className="input"
+            className={inputClass}
           />
           <input
             {...register("personal_info.location")}
             placeholder="Location"
-            className="input"
+            className={inputClass}
           />
           <input
             {...register("personal_info.linkedin")}
             placeholder="LinkedIn"
-            className="input"
+            className={inputClass}
           />
           <input
             {...register("personal_info.github")}
             placeholder="GitHub"
-            className="input"
+            className={inputClass}
           />
           <input
             {...register("personal_info.portfolio")}
             placeholder="Portfolio"
-            className="input"
+            className={inputClass}
           />
         </div>
       </>
     ),
     Experience: (
       <>
-        <h2 className="text-xl font-semibold text-teal-400 mb-4">Experience</h2>
+        <h2 className="text-xl font-semibold text-teal-400 mb-6 text-center">
+          Experience
+        </h2>
         {experienceArray.fields.map((item, index) => (
           <div
             key={item.id}
-            className="mb-8 p-6 rounded-lg border border-cyan-700 shadow-md"
+            className="mb-6 p-4 rounded-lg border border-cyan-700"
           >
-            {/* First Section: Company Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <input
                 {...register(`experience.${index}.company`)}
                 placeholder="Company"
-                className="input bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`experience.${index}.position`)}
                 placeholder="Position"
-                className="input bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`experience.${index}.start_date`)}
                 placeholder="Start Date"
-                className="input bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`experience.${index}.end_date`)}
                 placeholder="End Date"
-                className="input bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`experience.${index}.location`)}
                 placeholder="Location"
-                className="input bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 md:col-span-2"
+                className={inputClass}
               />
             </div>
-
-            {/* Second Section: Description Lines */}
-            <div className="space-y-3">
-              <textarea
-                {...register(`experience.${index}.description.0`)}
-                placeholder="Description"
-                className="w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              />
-              {/* <textarea
-                {...register(`experience.${index}.description.1`)}
-                placeholder="Description Line 2"
-                className="w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              /> */}
-              {/* <textarea
-                {...register(`experience.${index}.description.2`)}
-                placeholder="Description Line 3"
-                className="w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              /> */}
-            </div>
+            <textarea
+              {...register(`experience.${index}.description.0`)}
+              placeholder="Description"
+              className={textAreaClass}
+            />
           </div>
         ))}
         <button
           type="button"
           onClick={() => experienceArray.append({})}
-          className="text-sm text-teal-400"
+          className="text-sm text-teal-400 mt-2"
         >
           + Add More
         </button>
@@ -263,43 +254,44 @@ const ResumeBuilder = () => {
     ),
     Education: (
       <>
-        <h2 className="text-xl font-semibold text-teal-400 mb-4">Education</h2>
+        <h2 className="text-xl font-semibold text-teal-400 mb-6 text-center">
+          Education
+        </h2>
         {educationArray.fields.map((item, index) => (
           <div
             key={item.id}
-            className="mb-8 p-6 rounded-lg border border-cyan-700 shadow-md"
+            className="mb-6 p-4 rounded-lg border border-cyan-700"
           >
-            {/* First Section: Basic Education Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input
                 {...register(`education.${index}.institution`)}
                 placeholder="Institution"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`education.${index}.degree`)}
                 placeholder="Degree"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`education.${index}.field_of_study`)}
                 placeholder="Field of Study"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`education.${index}.graduation_date`)}
                 placeholder="Graduation Date"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`education.${index}.gpa`)}
                 placeholder="GPA"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
               <input
                 {...register(`education.${index}.location`)}
                 placeholder="Location"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
             </div>
           </div>
@@ -307,7 +299,7 @@ const ResumeBuilder = () => {
         <button
           type="button"
           onClick={() => educationArray.append({})}
-          className="text-sm text-teal-400"
+          className="text-sm text-teal-400 mt-2"
         >
           + Add More
         </button>
@@ -315,111 +307,104 @@ const ResumeBuilder = () => {
     ),
     Projects: (
       <>
-        <h2 className="text-xl font-semibold text-teal-400 mb-4">Projects</h2>
+        <h2 className="text-xl font-semibold text-teal-400 mb-6 text-center">
+          Projects
+        </h2>
         {projectArray.fields.map((item, index) => (
           <div
             key={item.id}
-            className="mb-8 p-6 rounded-lg border border-cyan-700 shadow-md"
+            className="mb-6 p-4 rounded-lg border border-cyan-700"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {/* Project Name */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <input
                 {...register(`projects.${index}.name`)}
                 placeholder="Project Name"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
-
-              {/* Project URL */}
               <input
                 {...register(`projects.${index}.url`)}
                 placeholder="Project URL"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className={inputClass}
               />
-
-              {/* Technologies */}
               <input
                 {...register(`projects.${index}.technologies.0`)}
                 placeholder="Tech Stack"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              />
-              {/* <input
-                {...register(`projects.${index}.technologies.1`)}
-                placeholder="Tech Stack 2"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              />
-              <input
-                {...register(`projects.${index}.technologies.2`)}
-                placeholder="Tech Stack 3"
-                className="bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              /> */}
-            </div>
-
-            {/* Description Full Width */}
-            <div>
-              <textarea
-                {...register(`projects.${index}.description`)}
-                placeholder="Project Description"
-                className="w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                rows={4}
+                className={inputClass}
               />
             </div>
+            <textarea
+              {...register(`projects.${index}.description`)}
+              placeholder="Project Description"
+              className={textAreaClass}
+              rows={4}
+            />
           </div>
         ))}
         <button
           type="button"
           onClick={() => projectArray.append({})}
-          className="text-sm text-teal-400"
+          className="text-sm text-teal-400 mt-2"
         >
           + Add More
         </button>
       </>
     ),
     Skills: (
-      <div className="mb-8 p-6 rounded-lg border border-teal-700  shadow-md">
-  <h2 className="text-xl font-semibold text-teal-400 mb-6 text-center">Skills & Role Target</h2>
-
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {/* Skills */}
-    <div className="col-span-1 md:col-span-2">
-      <label className="text-sm text-gray-300 mb-1 block">Skills</label>
-      <textarea
-        {...register("skills")}
-        placeholder="Comma separated skills like React, Node.js, AWS"
-        className="w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
-        rows={3}
-      />
-    </div>
-
-    {/* Target Role */}
-    <div className="col-span-1 md:col-span-2">
-      <label className="text-sm text-gray-300 mb-1 block">Target Role</label>
-      <input
-        {...register("target_role", { required: true })}
-        placeholder="Frontend Developer, DevOps Engineer, etc."
-        className="w-full bg-[#0f172a] text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
-      />
-    </div>
-  </div>
-
-  {/* Submit Button */}
-  <button
-    type="submit"
-    className="mt-8 w-full py-3 bg-teal-600 hover:bg-teal-500 transition rounded-lg font-semibold text-white shadow-md"
-  >
-    Submit Resume
-  </button>
-</div>
-
+      <div className="mb-6 p-4 rounded-lg border border-teal-700">
+        <h2 className="text-xl font-semibold text-teal-400 mb-6 text-center">
+          Skills & Role Target
+        </h2>
+        <div className="grid grid-cols-1 gap-6">
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">Skills</label>
+            <textarea
+              {...register("skills")}
+              placeholder="Comma separated skills like React, Node.js, AWS"
+              className={textAreaClass}
+              rows={3}
+            />
+          </div>
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">
+              Target Role
+            </label>
+            <input
+              {...register("target_role", { required: true })}
+              placeholder="Frontend Developer, DevOps Engineer, etc."
+              className={inputClass}
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          className="mt-8 w-full py-3 bg-teal-600 hover:bg-teal-500 transition rounded-lg font-semibold text-white shadow-md"
+        >
+          Submit Resume
+        </button>
+      </div>
     ),
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 to-black text-white flex items-center justify-center px-4 py-12">
-      {loading ? (
-        <div className="flex justify-center mt-20">
-          <Loader className="animate-spin w-8 h-8 text-cyan-500" />
-        </div>
-      ) : (<form onSubmit={handleSubmit(onSubmit)} className="max-w-3xl w-full">
+   <div className="min-h-screen bg-gradient-to-br from-zinc-900 to-black text-white px-4 py-10 flex flex-col items-center justify-center">
+  {loading ? (
+    <div className="flex justify-center mt-20">
+      <Loader className="animate-spin w-8 h-8 text-cyan-500" />
+    </div>
+  ) : (
+    <>
+      {/* Header Section */}
+      <div className="w-full max-w-4xl text-center mb-8">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-pulse tracking-wide drop-shadow-lg">
+          🚀 Create Your Professional Resume
+        </h1>
+        <p className="mt-4 text-sm sm:text-base text-gray-400 max-w-2xl mx-auto">
+          Stand out from the crowd. Build a resume that reflects your unique skills and experience.
+        </p>
+      </div>
+
+      {/* Form Section */}
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-3xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
@@ -427,16 +412,18 @@ const ResumeBuilder = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
-            className={`bg-gray-950 rounded-2xl p-6 shadow-xl border border-gray-700 ${
+            className={`bg-gray-950 rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-700 w-full ${
               shake ? "animate-shake" : ""
             }`}
           >
             {sectionUI[sections[currentStep]]}
-            <div className="flex justify-between items-center mt-6">
+
+            {/* Navigation Buttons */}
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
               <button
                 type="button"
                 onClick={handleBack}
-                className="text-sm text-gray-400 hover:text-teal-400"
+                className="text-sm text-gray-400 hover:text-teal-400 transition"
               >
                 ← Back
               </button>
@@ -444,7 +431,7 @@ const ResumeBuilder = () => {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="text-sm text-teal-400 hover:text-teal-300 font-medium"
+                  className="text-sm text-teal-400 hover:text-teal-300 font-medium transition"
                 >
                   Next →
                 </button>
@@ -452,9 +439,11 @@ const ResumeBuilder = () => {
             </div>
           </motion.div>
         </AnimatePresence>
-      </form>)}
-      
-    </div>
+      </form>
+    </>
+  )}
+</div>
+
   );
 };
 

@@ -1,18 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiInstance from "../../utils/apiInstance";
 
-// ────────────────────────────
-// ✅ THUNKS (API Calls)
-// ────────────────────────────
 
 // Get JobSeeker Profile
 export const getJobSeekerProfile = createAsyncThunk(
   "jobseeker/getProfile",
   async (_, { rejectWithValue }) => {
     try {
-      console.log("thunk chala");
       const res = await apiInstance.get("/job-seekers/me");
-      console.log(res);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to load profile");
@@ -91,17 +86,12 @@ export const listJobSeekerApplications = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await apiInstance.get("/applications/job-seeker");
-      console.log(res);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to load applications");
     }
   }
 );
-
-// ────────────────────────────
-// ✅ SLICE
-// ────────────────────────────
 
 const jobSeekerSlice = createSlice({
   name: "jobseeker",

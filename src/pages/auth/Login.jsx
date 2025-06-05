@@ -28,7 +28,7 @@ const Login = () => {
   const password = watch('password');
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4">
+    <div className="min-h-screen flex justify-center items-start sm:items-center pt-10 sm:pt-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4">
       <div className="bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-white">
         <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
 

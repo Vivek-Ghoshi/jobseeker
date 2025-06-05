@@ -20,6 +20,7 @@ import ResumeBuilder from './pages/resume/ResumeBuilder'
 import AllResumeList from './pages/resume/AllResumeList'
 import ResumeScoreAnalysis from './pages/resume/ResumeScoreAnalysis'
 import UpdateJob from './pages/Jobs/UpdateJob'
+import NotFound from './pages/auth/NotFound'
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
         <Route path='/job-application/:id' element={<JobApplicationPage/>}/>
         <Route path='/jobseeker/all-applications' element={<AllApplications/>}/>
         <Route path='/resume-builder/templates/list' element={<ResumeTemplates/>}/>
+        <Route path='*' element={<NotFound/>}/>
 
       </Routes>
       

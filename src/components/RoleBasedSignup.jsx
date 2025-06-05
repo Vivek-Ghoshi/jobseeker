@@ -195,7 +195,7 @@ export default function RoleBasedSignup({ role }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white flex items-center justify-center p-4 items-start sm:items-center pt-25 sm:pt-0">
       <div className="max-w-md w-full space-y-4">
         <div className="flex justify-between items-center">
           <h2 className="text-teal-400 font-bold text-xl">

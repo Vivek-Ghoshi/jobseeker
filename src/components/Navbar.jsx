@@ -108,7 +108,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <Briefcase size={26} className="text-cyan-400" />
-            <h1 className="text-xl sm:text-2xl font-bold text-cyan-400 tracking-wide">
+            <h1 className="text-xl sm:text-2xl font-bold text-white tracking-wide">
               JobSeeker
             </h1>
           </div>

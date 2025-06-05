@@ -4,7 +4,7 @@ import { Briefcase, User } from 'lucide-react';
 
 const ChooseRole = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-950 flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-950 flex items-center justify-center px-4 py-10 items-start sm:items-center pt-10 sm:pt-0">
       <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Employer Card */}
         <Link
