@@ -8,7 +8,6 @@ export const employerSignup = createAsyncThunk(
   "auth/employerSignup",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("thunk me data", data);
       const res = await apiInstance.post("/auth/signup/employer", data);
       return res.data;
     } catch (err) {
