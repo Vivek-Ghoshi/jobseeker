@@ -13,7 +13,11 @@ const CreateJobForm = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      is_active: true,
+    },
+  });
 
   const onSubmit = async (data) => {
     const formatted = {
