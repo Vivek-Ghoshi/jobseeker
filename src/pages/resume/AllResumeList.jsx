@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   FileText,
-  FileDown,
   Eye,
   Trash2,
   Loader,
@@ -15,7 +14,7 @@ import {
   getResumeURL,
   getUserResumes,
 } from "../../redux/slices/resumeBuilderSlice";
-import { Worker, Viewer } from "@react-pdf-viewer/core";
+
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
@@ -27,14 +26,10 @@ const AllResumeList = () => {
   const { resumes, uploadedResumeUrl } = useSelector(
     (state) => state.resumebuilder
   );
-  console.log(resumes[0].pdf_url);
   const [loading, setLoading] = useState(true);
   const [resumeToDelete, setResumeToDelete] = useState(null);
   const [error, setError] = useState(null);
   const [showUploadPopup, setShowUploadPopup] = useState(false);
-  const [viewPdfUrl, setViewPdfUrl] = useState(null);
-
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   useEffect(() => {
     try {
@@ -62,7 +57,7 @@ const AllResumeList = () => {
       setResumeToDelete(null);
     }
   };
-
+ 
   return (
     <div className="min-h-screen bg-black text-white py-12 px-4 md:px-12 relative">
       <h1 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-10 text-center">
@@ -90,20 +85,9 @@ const AllResumeList = () => {
                   Your uploaded resume is available for download/view.
                 </p>
                 <div className="flex gap-4">
-                  <a
-                    href={uploadedResumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-md text-white font-semibold transition"
-                  >
-                    Download Resume
-                  </a>
                   <button
                     onClick={() => {
-                      if (typeof uploadedResumeUrl === "string") {
-                        console.log("chala");
-                        setViewPdfUrl(uploadedResumeUrl);
-                      }
+                      window.open(uploadedResumeUrl?.resume_url, "_blank");
                     }}
                     className="bg-cyan-600 hover:bg-cyan-500 px-4 py-2 rounded-md text-white font-semibold transition"
                   >
@@ -158,9 +142,7 @@ const AllResumeList = () => {
                     {resume.pdf_url && (
                       <button
                         onClick={() => {
-                          if (typeof resume.pdf_url === "string") {
-                            setViewPdfUrl(resume.pdf_url);
-                          }
+                           window.open(resume?.pdf_url,"_blank");
                         }}
                         className="flex items-center justify-center gap-2 w-full py-2 rounded-md bg-cyan-600 hover:bg-cyan-500 text-white font-semibold transition"
                       >
@@ -168,14 +150,6 @@ const AllResumeList = () => {
                         View Resume
                       </button>
                     )}
-                    <a
-                      href={resume.markdown_url}
-                      download
-                      className="flex items-center justify-center gap-2 w-full py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition"
-                    >
-                      <FileDown className="w-4 h-4" />
-                      Download Markdown
-                    </a>
                     <button
                       onClick={() => setResumeToDelete(resume)}
                       className="flex items-center justify-center gap-2 w-full py-2 rounded-md bg-red-600 hover:bg-red-500 text-white font-semibold transition"
@@ -189,26 +163,6 @@ const AllResumeList = () => {
             </div>
           )}
         </>
-      )}
-
-      {/* Resume Viewer Modal */}
-      {viewPdfUrl && typeof viewPdfUrl === "string" && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full h-[90vh] overflow-hidden relative">
-            <button
-              onClick={() => setViewPdfUrl(null)}
-              className="absolute top-2 right-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-500 transition"
-            >
-              Close
-            </button>
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
-              <Viewer
-                fileUrl={viewPdfUrl}
-                plugins={[defaultLayoutPluginInstance]}
-              />
-            </Worker>
-          </div>
-        </div>
       )}
 
       {/* Upload Resume Popup */}

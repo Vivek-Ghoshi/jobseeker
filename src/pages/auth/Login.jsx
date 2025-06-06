@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LogIn, Briefcase, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,6 +17,12 @@ const Login = () => {
 
   const [role, setRole] = useState('jobseeker');
 
+  useEffect(()=>{
+   const isLoggedIn =  localStorage.getItem("isLoggedIn");
+    if(isLoggedIn){
+      navigate(`/dashboard/${role}`);
+    }
+  },[])
   const onSubmit = async (data) => {
     const response = await dispatch(login(data));
     if(login.fulfilled.match(response)){

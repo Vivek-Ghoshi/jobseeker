@@ -17,8 +17,6 @@ const ViewApplicationPage = () => {
   const { selectedApplication, applicantResume } = useSelector(
     (state) => state.employer
   );
-  console.log(selectedApplication);
-
   const [status, setStatus] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(false);

@@ -24,9 +24,12 @@ const ReceivedApplicationsPage = () => {
   const { applications, resumescore, applicantResume } = useSelector(
     (state) => state.employer
   );
+  
   const [loadingId, setLoadingId] = useState(null);
   const [scores, setScores] = useState({});
+
   useEffect(() => {
+    console.log("useEffect chala")
     dispatch(listApplicationsForJob(jobId));
   }, [dispatch]);
 

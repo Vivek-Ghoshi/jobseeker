@@ -6,10 +6,12 @@ import { getEmployerProfile } from "./employerSlice";
 
 export const employerSignup = createAsyncThunk(
   "auth/employerSignup",
-  async (data, { rejectWithValue }) => {
+  async (data,thunkAPI ) => {
     try {
-      console.log(data);
       const res = await apiInstance.post("/auth/signup/employer", data);
+       localStorage.setItem("token",res.data.access_token);
+       localStorage.setItem("isLoggedIn",true);
+       await thunkAPI.dispatch(getEmployerProfile());
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -19,9 +21,12 @@ export const employerSignup = createAsyncThunk(
 
 export const jobSeekerSignup = createAsyncThunk(
   "auth/jobSeekerSignup",
-  async (data, { rejectWithValue }) => {
+  async (data,thunkAPI) => {
     try {
       const res = await apiInstance.post("/auth/signup/job-seeker", data);
+       localStorage.setItem("token",res.data.access_token);
+       localStorage.setItem("isLoggedIn",true);
+       await thunkAPI.dispatch(getJobSeekerProfile());
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -34,13 +39,15 @@ export const login = createAsyncThunk(
   async (data,thunkAPI) => {
     try {
       const res = await apiInstance.post("/auth/login", data);
-      localStorage.setItem("token",res.data.access_token)
+      localStorage.setItem("token",res.data.access_token);
+      localStorage.setItem("isLoggedIn",true);
        setAuthToken(res.data.access_token);
         if(res.data.role === "job_seeker"){
          await thunkAPI.dispatch(getJobSeekerProfile());
         }else {
          await thunkAPI.dispatch(getEmployerProfile());
         }
+
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);

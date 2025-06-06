@@ -13,19 +13,7 @@ const CreateJobForm = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: 'Senior Software Python Developer',
-      description: 'We are looking for a Senior Software Developer to join our team.',
-      location: 'Remote',
-      job_type: 'full_time',
-      salary_min: 80000,
-      salary_max: 120000,
-      requirements: 'python, fastapi, ai',
-      responsibilities: 'Develop new features, Maintain existing codebase, Code reviews',
-      is_active: true,
-    },
-  });
+  } = useForm();
 
   const onSubmit = async (data) => {
     const formatted = {

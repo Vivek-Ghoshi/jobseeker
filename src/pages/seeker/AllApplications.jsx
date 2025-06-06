@@ -23,10 +23,6 @@ const AllApplications = () => {
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
  
-    applications.map((job)=>(
-      console.log(job.title)
-    ))
-  
   useEffect(() => {
     const fetchApps = async () => {
       try {

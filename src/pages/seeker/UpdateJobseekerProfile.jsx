@@ -27,7 +27,6 @@ const UpdateJobseekerProfile = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
       first_name: profile.first_name,

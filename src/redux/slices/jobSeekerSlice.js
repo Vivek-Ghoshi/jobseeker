@@ -118,6 +118,12 @@ const jobSeekerSlice = createSlice({
       .addCase(getJob.fulfilled, (state, action) => {
         state.selectedJob = action.payload;
       })
+      .addCase(createApplication.fulfilled,(state)=>{
+        state.error = false;
+      })
+      .addCase(createApplication.rejected,(state)=>{
+        state.error = true;
+      })
       .addCase(listJobSeekerApplications.fulfilled, (state, action) => {
         state.applications = action.payload;
       })

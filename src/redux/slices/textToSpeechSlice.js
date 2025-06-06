@@ -4,7 +4,7 @@ import apiInstance from "../../utils/apiInstance";
 // 1. Get TTS Audio URL
 export const getTTSAudio = createAsyncThunk(
   "tts/getAudio",
-  async ({ promptPath, language }, { rejectWithValue }) => {
+  async ({ promptPath, language } ) => {
     try {
       const res = await apiInstance.get(`/tts/tts-audio`, {
         params: { prompt_path: promptPath, language },

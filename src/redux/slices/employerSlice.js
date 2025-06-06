@@ -17,12 +17,10 @@ export const getEmployerProfile = createAsyncThunk(
 // ✅ Update Employer Profile
 export const updateEmployerProfile = createAsyncThunk(
   "employer/updateProfile",
-  async ({data,thunkAPI}, { rejectWithValue }) => {
+  async (data,thunkAPI) => {
     try {
-      console.log("thunk chaka",data);
       const res = await apiInstance.put("/employers/me", data);
       await thunkAPI.dispatch(getEmployerProfile());
-      console.log(res);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to update profile");
@@ -46,7 +44,7 @@ export const createJob = createAsyncThunk(
 // ✅ Update Job
 export const updateJob = createAsyncThunk(
   "employer/updateJob",
-  async ({ id, data }, { rejectWithValue }) => {
+  async ({ id, data }) => {
     try {
       const res = await apiInstance.put(`/jobs/${id}`, data);
       return res.data;
@@ -87,9 +85,12 @@ export const listApplicationsForJob = createAsyncThunk(
   "employer/listApplications",
   async (jobId, { rejectWithValue }) => {
     try {
+      console.log("application khojne jaa rha huu");
       const res = await apiInstance.get(`/applications/employer/job/${jobId}`);
+      console.log('application khoj laya');
       return res.data;
     } catch (err) {
+      console.error("error in fetching applications : ",err)
       return rejectWithValue(err.response?.data?.message || "Failed to load applications");
     }
   }
@@ -98,7 +99,7 @@ export const listApplicationsForJob = createAsyncThunk(
 // ✅ Update Application Status
 export const updateApplicationStatus = createAsyncThunk(
   "employer/updateAppStatus",
-  async ({ id, data }, { rejectWithValue }) => {
+  async ({ id, data }) => {
     try {
       const res = await apiInstance.put(`/applications/${id}`, data);
       return res.data;
@@ -172,9 +173,11 @@ const employerSlice = createSlice({
         state.jobs = action.payload;
       })
       .addCase(listApplicationsForJob.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.applications = action.payload;
       })
       .addCase(getApplication.fulfilled, (state, action) => {
+        
         state.selectedApplication = action.payload;
       })
       .addCase(getApplicantResume.fulfilled, (state, action) => {
