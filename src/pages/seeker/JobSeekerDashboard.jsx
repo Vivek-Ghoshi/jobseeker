@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Mail,
   Phone,
@@ -9,20 +9,26 @@ import {
 } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import UploadResume from "../../components/UploadResume";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { getJobSeekerProfile } from "../../redux/slices/jobSeekerSlice";
 
 const JobseekerDashboard = () => {
   const { profile } = useSelector((state) => state.jobseeker);
   const [showModal, setShowModal] = useState(false);
-
+  const dispatch = useDispatch();
+  useEffect(()=>{
+     dispatch(getJobSeekerProfile());
+  },[dispatch])
   return (
-    <div className="flex flex-col md:flex-row w-full min-h-screen bg-black text-white items-start sm:items-center sm:pt-0">
+    <div className="flex bg-black text-white min-h-screen">
       {/* Sidebar */}
+      <div className="w-[250px] hidden md:block border-r border-[#1e293b] bg-[#0f172a]">
       <Sidebar role="jobseeker" />
+      </div>
 
       {/* Dashboard Content */}
-      <div className="flex-1 mt-20 md:mt-0 md:ml-0 px-4 py-6 sm:px-6 md:px-30 py-12">
+      <div className="flex-1 pt-10 sm:pt-10 mt-20 md:mt-0 md:ml-0 px-4 py-6 sm:px-6 md:px-30 py-12">
         <motion.div
           initial={{ opacity: 0, scale: 0.98, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}

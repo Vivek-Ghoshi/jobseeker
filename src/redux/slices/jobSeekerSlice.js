@@ -23,6 +23,7 @@ export const updateJobSeekerProfile = createAsyncThunk(
       const res = await apiInstance.put("/job-seekers/me", data);
       return res.data;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(err.response?.data?.message || "Failed to update profile");
     }
   }

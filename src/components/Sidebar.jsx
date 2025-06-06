@@ -70,8 +70,7 @@ const Sidebar = ({ role = 'jobseeker' }) => {
     : [...jobseekerLinks, ...commonLinks];
 
   return (
-    // Sidebar only visible on md+ screens
-    <div className="hidden md:flex flex-col w-64 h-screen bg-black text-white shadow-lg  py-2 border-r border-zinc-800">
+    <div className="hidden md:flex flex-col w-64 min-h-screen bg-black text-white shadow-lg  py-2 border-r border-zinc-800">
       <div className="text-2xl font-extrabold p-6 border-b border-zinc-800 tracking-wide text-cyan-400">
         {role === 'employer' ? 'Employer Panel' : 'JobSeeker Panel'}
       </div>

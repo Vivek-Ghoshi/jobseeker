@@ -127,8 +127,9 @@ export const getApplicantResume = createAsyncThunk(
   "employer/getApplicantResume",
   async (applicationId, { rejectWithValue }) => {
     try {
-      const res = await apiInstance.get(`/applications/${applicationId}/resume`);
-      return res.data;
+      const res = await apiInstance.get(`/applications/resume/${applicationId}`);
+      console.log(res);
+      return res.data.resume_url;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch applicant resume");
     }

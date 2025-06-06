@@ -1,8 +1,9 @@
-import { User, FileText, Download } from "lucide-react";
+import { User, FileText, Download, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getApplicantResume,
   getApplication,
   updateApplicationStatus,
 } from "../../redux/slices/employerSlice";
@@ -13,13 +14,17 @@ const ViewApplicationPage = () => {
   const { id: appId } = useParams();
   const dispatch = useDispatch();
 
-  const { selectedApplication } = useSelector((state) => state.employer);
+  const { selectedApplication, applicantResume } = useSelector(
+    (state) => state.employer
+  );
+  console.log(selectedApplication);
 
   const [status, setStatus] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [loadingApp, setLoadingApp] = useState(true);
   const [error, setError] = useState(null);
+  const [downloading, setDownLoading] = useState(false);
 
   useEffect(() => {
     const fetchApp = async () => {
@@ -53,10 +58,42 @@ const ViewApplicationPage = () => {
     }
   }, [status]);
 
+  //resume downloadHandler
+  const resumeDownloadHandler = async (appId) => {
+    try {
+      setDownLoading(true);
+      const res = await dispatch(getApplicantResume(appId));
+      if (getApplicantResume.fulfilled.match(res)) {
+        const { resume_url, resume_filename } = res.payload;
+
+        // Fetch the file as a blob
+        const response = await fetch(resume_url);
+        const blob = await response.blob();
+
+        // Create a blob URL and force download
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = resume_filename || "resume.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+      } else {
+        alert("failed to fetch resume");
+      }
+    } catch (error) {
+      console.error("Error downloading resume : ", error);
+    } finally {
+      setTimeout(() => setDownLoading(false), 1000);
+    }
+  };
   if (loadingApp) {
     return (
       <div className="min-h-screen flex justify-center items-center bg-black text-white">
-        <p className="text-cyan-400 animate-pulse text-lg">Loading Application...</p>
+        <p className="text-cyan-400 animate-pulse text-lg">
+          Loading Application...
+        </p>
       </div>
     );
   }
@@ -88,7 +125,7 @@ const ViewApplicationPage = () => {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full bg-[#334155] text-white p-2 rounded-md border border-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-300"
+            className="w-full sm:w-auto bg-[#1e293b] text-white text-sm sm:text-base font-medium p-3 sm:p-2 rounded-md border border-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 hover:border-cyan-400 transition duration-300 shadow-md hover:shadow-cyan-700/30"
           >
             <option value="">Update Status</option>
             <option value="pending">Pending</option>
@@ -128,16 +165,23 @@ const ViewApplicationPage = () => {
         {/* Resume Download */}
         <div className="flex justify-between items-center border-t border-cyan-800 pt-5 mt-6">
           <p className="text-sm text-gray-400">Resume</p>
-          {selectedApplication?.resume_url ? (
-            <a
-              href={selectedApplication.resume_url}
-              target="_blank"
-              rel="noopener noreferrer"
+          {selectedApplication ? (
+            <button
+              onClick={() => resumeDownloadHandler(selectedApplication.id)}
               className="bg-cyan-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-cyan-500 transition duration-200 flex items-center gap-2"
             >
-              <Download className="w-4 h-4" />
-              Download Resume
-            </a>
+              {downloading ? (
+                <>
+                  <Loader2 className="animate-spin w-4 h-4" />
+                  Downloading...
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4" />
+                  Download Resume
+                </>
+              )}
+            </button>
           ) : (
             <span className="text-red-400 text-sm">Resume not available</span>
           )}
