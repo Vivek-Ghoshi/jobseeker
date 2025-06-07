@@ -17,7 +17,7 @@ const persistConfig = {
 
 // Combine all reducers
 const rootReducer = combineReducers({
-  auth: authReducer, // only auth is persisted
+  auth: authReducer, 
   employer: employerReducer,
   jobseeker: jobSeekerReducer,
   textToSpeech: textToSpeechReducer,
@@ -34,5 +34,5 @@ const store = configureStore({
 });
 
 const persistor = persistStore(store);
-export default persistedRootReducer;
+export default store;
 export { store, persistor };

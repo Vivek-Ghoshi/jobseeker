@@ -8,6 +8,8 @@ import {
   FolderOpen,
   FileEdit,
   DockIcon,
+  BookA,
+  Calendar,
 } from 'lucide-react';
 
 const Sidebar = ({ role = 'jobseeker' }) => {
@@ -35,6 +37,12 @@ const Sidebar = ({ role = 'jobseeker' }) => {
       path: '/employer/created-jobs',
       icon: <FolderOpen size={20} />,
     },
+    {
+      name: 'Interview Schedules',
+      path: '/sheduled/interviews',
+      icon: <Calendar size={20} />,
+    },
+    
   ];
 
   const jobseekerLinks = [
@@ -52,6 +60,11 @@ const Sidebar = ({ role = 'jobseeker' }) => {
       name: 'Update profile',
       path: '/jobseeker/update-profile',
       icon: <Pencil size={20} />,
+    },
+    {
+      name: 'Exam page',
+      path: '/exam',
+      icon: <BookA size={20} />,
     },
     {
       name: 'Resume Templates',

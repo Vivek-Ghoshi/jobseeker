@@ -2,7 +2,7 @@ import  { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LogIn, Briefcase, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/slices/authSlice';
 
 const Login = () => {
@@ -14,15 +14,16 @@ const Login = () => {
     formState: { errors, isValid },
     watch,
   } = useForm({ mode: 'onChange' });
+  const {role} = useSelector(state => state.auth);
+  const [lrole, setlRole] = useState('jobseeker');
 
-  const [role, setRole] = useState('jobseeker');
-
-  useEffect(()=>{
-   const isLoggedIn =  localStorage.getItem("isLoggedIn");
-    if(isLoggedIn){
+   useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn && role) {
       navigate(`/dashboard/${role}`);
     }
-  },[])
+  }, [navigate, role]);
+
   const onSubmit = async (data) => {
     const response = await dispatch(login(data));
     if(login.fulfilled.match(response)){
@@ -41,7 +42,7 @@ const Login = () => {
         {/* Role Selector */}
         <div className="flex justify-center mb-4 space-x-4">
           <button
-            onClick={() => setRole('jobseeker')}
+            onClick={() => setlRole('jobseeker')}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition 
               ${role === 'jobseeker' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'}
               hover:bg-blue-500`}
@@ -49,7 +50,7 @@ const Login = () => {
             <User size={16} /> Job Seeker
           </button>
           <button
-            onClick={() => setRole('employer')}
+            onClick={() => setlRole('employer')}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition 
               ${role === 'employer' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'}
               hover:bg-green-500`}

@@ -21,7 +21,7 @@ const ReceivedApplicationsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id: jobId } = useParams();
-  const { applications, resumescore, applicantResume } = useSelector(
+  const { applications} = useSelector(
     (state) => state.employer
   );
   
@@ -51,7 +51,10 @@ const ReceivedApplicationsPage = () => {
   const resumeUrlHandler = async (id) => {
     const res = await dispatch(getApplicantResume(id));
     if (getApplicantResume.fulfilled.match(res)) {
-      window.open(applicantResume, "_blank");
+      const url = res.payload;
+      if(url){
+        window.open(url, "_blank");
+      }
     } else {
       throw new Error("resume fetched failed");
     }

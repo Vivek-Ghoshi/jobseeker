@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {AnimatePresence} from "framer-motion"
 import {
   Menu,
   X,
@@ -13,15 +14,16 @@ import {
   FolderOpen,
   UserPlus,
   DockIcon,
-} from 'lucide-react';
-import { persistor } from '../redux/store';
-import { useSelector } from 'react-redux';
+} from "lucide-react";
+import { persistor } from "../redux/store";
+import { useSelector } from "react-redux";
+import WorkSpace from "./WorkSpace";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showWorkspace, setShowWorkspace] = useState(false);
   const navigate = useNavigate();
-  const { user } = useSelector(state => state.auth);
-  const role = user?.role?.replace('_', '');
+  const { user, role } = useSelector((state) => state.auth);
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = async () => {
@@ -29,9 +31,9 @@ const Navbar = () => {
       await persistor.purge();
       localStorage.clear();
       sessionStorage.clear();
-      window.location.replace('/');
+      navigate("/", { replace: true });
     } catch (err) {
-      console.error('Logout error:', err);
+      console.error("Logout error:", err);
     }
   };
 
@@ -39,67 +41,81 @@ const Navbar = () => {
 
   const commonLinks = [
     {
-      name: 'Create Resume',
-      path: '/resume/builder',
+      name: "Create Resume",
+      path: "/resume/builder",
       icon: <FileEdit size={20} />,
     },
   ];
 
   const employerLinks = [
     {
-      name: 'Create Job',
-      path: '/employer/create-openings',
+      name: "Create Job",
+      path: "/employer/create-openings",
       icon: <PlusCircle size={20} />,
     },
     {
-      name: 'Resume Templates',
-      path: '/resume-builder/templates/list',
+      name: "Resume Templates",
+      path: "/resume-builder/templates/list",
       icon: <Pencil size={20} />,
     },
     {
-      name: 'Update profile',
-      path: '/employer/update-profile',
+      name: "Update profile",
+      path: "/employer/update-profile",
       icon: <Pencil size={20} />,
     },
     {
-      name: 'Your Listed Jobs',
-      path: '/employer/created-jobs',
+      name: "Your Listed Jobs",
+      path: "/employer/created-jobs",
       icon: <FolderOpen size={20} />,
     },
   ];
 
   const jobseekerLinks = [
     {
-      name: 'Track Applications',
-      path: '/jobseeker/all-applications',
+      name: "Track Applications",
+      path: "/jobseeker/all-applications",
       icon: <UserPlus size={20} />,
     },
     {
-      name: 'View Listed Jobs',
-      path: '/jobs/all',
+      name: "View Listed Jobs",
+      path: "/jobs/all",
       icon: <Briefcase size={20} />,
     },
     {
-      name: 'Update profile',
-      path: '/jobseeker/update-profile',
+      name: "Update profile",
+      path: "/jobseeker/update-profile",
       icon: <Pencil size={20} />,
     },
     {
-      name: 'Resume Templates',
-      path: '/resume-builder/templates/list',
+      name: "Resume Templates",
+      path: "/resume-builder/templates/list",
       icon: <FolderOpen size={20} />,
     },
     {
-      name: 'Your Resumes',
-      path: '/all-resumelist',
+      name: "Your Resumes",
+      path: "/all-resumelist",
       icon: <DockIcon size={20} />,
     },
   ];
 
   const links =
-    role === 'employer'
+    role === "employer"
       ? [...employerLinks, ...commonLinks]
       : [...jobseekerLinks, ...commonLinks];
+
+  const handleBack = () => {
+    if (window.history.length > 2) {
+      navigate(-1);
+    } else {
+      if (role === "job_seeker") {
+        navigate("/jobseeker/dashboard");
+      } else if (role === "employer") {
+        navigate("/employer/dashboard");
+      } else {
+        navigate("/");
+      }
+    }
+  };
 
   return (
     <nav className="bg-[#0f172a] text-white w-full z-40 shadow-md border-b border-zinc-700 relative">
@@ -126,13 +142,27 @@ const Navbar = () => {
             ) : (
               <>
                 <button
-                  onClick={() => navigate(-1)}
+                  onClick={handleBack}
                   className="flex items-center hover:text-cyan-400 transition"
                 >
                   <ArrowLeftCircle className="mr-2" size={20} />
                   Back
                 </button>
 
+                <button
+                  onClick={() => setShowWorkspace((prev) => !prev)}
+                  className="flex items-center hover:text-cyan-400 transition"
+                >
+                  WorkSpace
+                </button>
+                <AnimatePresence>
+                  {showWorkspace && (
+                    <WorkSpace
+                      key="workspace"
+                      onClose={() => setShowWorkspace(false)}
+                    />
+                  )}
+                </AnimatePresence>
                 <Link
                   to={`/dashboard/${role}`}
                   className="flex items-center hover:text-cyan-400 transition"

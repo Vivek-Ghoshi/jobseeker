@@ -39,6 +39,7 @@ export const login = createAsyncThunk(
   async (data,thunkAPI) => {
     try {
       const res = await apiInstance.post("/auth/login", data);
+      console.log(res.data)
       localStorage.setItem("token",res.data.access_token);
       localStorage.setItem("isLoggedIn",true);
        setAuthToken(res.data.access_token);
@@ -57,7 +58,7 @@ export const login = createAsyncThunk(
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { user: null, loading: false, error: null },
+  initialState: { user: null,role:null, loading: false, error: null },
   extraReducers: (builder) => {
     builder
       .addCase(employerSignup.pending, (state) => {
@@ -66,6 +67,7 @@ const authSlice = createSlice({
       .addCase(employerSignup.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.role = action.payload.role;
       })
       .addCase(employerSignup.rejected, (state, action) => {
         state.loading = false;
@@ -78,6 +80,7 @@ const authSlice = createSlice({
       .addCase(jobSeekerSignup.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.role = "jobseeker";
       })
       .addCase(jobSeekerSignup.rejected, (state, action) => {
         state.loading = false;
@@ -90,6 +93,8 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+         const rawRole = action.payload.role;
+         state.role = rawRole === "job_seeker" ? "jobseeker" : rawRole;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

@@ -161,8 +161,24 @@ const employerSlice = createSlice({
     selectedApplication: null,
     applicantResume: null,
     resumeScore: null,
+    workspace:[],
     loading: false,
     error: null,
+
+  },
+    reducers: {
+    addQuestion: (state, action) => {
+     if(!state.workspace){
+      state.workspace = [];
+     }
+      state.workspace.push(action.payload);
+    },
+    removeQuestion: (state, action) => {
+      state.workspace.splice(action.payload, 1);
+    },
+    clearAllQuestions: (state) => {
+      state.workspace = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -214,5 +230,6 @@ const employerSlice = createSlice({
       );
   },
 });
+export const { addQuestion, removeQuestion, clearAllQuestions } = employerSlice.actions;
 
 export default employerSlice.reducer;

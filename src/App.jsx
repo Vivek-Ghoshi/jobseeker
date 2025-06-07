@@ -21,43 +21,103 @@ import AllResumeList from './pages/resume/AllResumeList'
 import ResumeScoreAnalysis from './pages/resume/ResumeScoreAnalysis'
 import UpdateJob from './pages/Jobs/UpdateJob'
 import NotFound from './pages/auth/NotFound'
+import ProctoringDemo from './pages/Interview/ProctoringDemo'
+import InterviewQuestions from './pages/Interview/InterviewQuestions'
+import Unauthorized from './pages/auth/Unauthorized'
+import ProtectedRoute from './utils/ProtectedRoute'
+import InterviewPage from './pages/Interview/InterviewPage'
+import ScheduledInterviews from './pages/Interview/ScheduledInterviewes'
 
 const App = () => {
   return (
-    <div>
-      <Navbar/>
+       <div>
+      <Navbar />
       <Routes>
-        <Route path='/' element={<Login/>}/>
+        {/* Public Routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/choose-role" element={<ChooseRole />} />
+        <Route path="/signup/employer" element={<EmployerSignup />} />
+        <Route path="/signup/jobseeker" element={<JobSeekerSignup />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
-        <Route path='/choose-role' element={<ChooseRole/>}/>
-        
-        <Route path='/signup/employer' element={<EmployerSignup/>}/>
-        <Route path='/signup/jobseeker' element={<JobSeekerSignup/>}/>
+        {/* Employer Protected Routes */}
+        <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
+          <Route path="/dashboard/employer" element={<EmployerDashboard />} />
+          <Route path="/employer/update-profile" element={<UpdateEmployerProfile />} />
+          <Route path="/employer/create-openings" element={<CreateJobForm />} />
+          <Route path="/employer/interview" element={<InterviewPage />} />
+          <Route path="/employer/created-jobs" element={<EmployerCreatedJobs />} />
+          <Route path="/applications/employer/job/:id" element={<ReceivedApplicationsPage />} />
+          <Route path="/application/:id" element={<ViewApplicationPage />} />
+          <Route path="/sheduled/interviews" element={<ScheduledInterviews />} />
+          <Route path="/employer/resume-score" element={<ResumeScoreAnalysis />} />
+          <Route path="/employer/update-job/:id" element={<UpdateJob />} />
+          {/* <Route path="/employer/interview/web-cam" element={<ProctoringDemo />} /> */}
+        </Route>
 
-        <Route path='/dashboard/employer' element={<EmployerDashboard/>}/>
-        <Route path='/employer/update-profile' element={<UpdateEmployerProfile/>}/>
-        <Route path='/employer/create-openings' element={<CreateJobForm/>}/>
-        <Route path='/employer/created-jobs' element={<EmployerCreatedJobs/>}/>
-        <Route path='/applications/employer/job/:id' element={<ReceivedApplicationsPage/>}/>
-        <Route path='/application/:id' element={<ViewApplicationPage/>}/>
-        <Route path='/employer/resume-score' element={<ResumeScoreAnalysis/>}/>
-        <Route path='/employer/update-job/:id' element={<UpdateJob/>}/>
+        {/* Jobseeker Protected Routes */}
+        <Route element={<ProtectedRoute allowedRoles={['jobseeker']} />}>
+          <Route path="/dashboard/jobseeker" element={<JobseekerDashboard />} />
+          <Route path="/jobseeker/update-profile" element={<UpdateJobseekerProfile />} />
+          <Route path="/jobs/all" element={<AllListedJobs />} />
+          <Route path="/job-application/:id" element={<JobApplicationPage />} />
+          <Route path="/exam" element={<InterviewPage />} />
+          <Route path="/jobseeker/all-applications" element={<AllApplications />} />
+        </Route>
 
-        
-        <Route path='/resume/builder' element={<ResumeBuilder/>}/>
-        <Route path='/all-resumelist' element={<AllResumeList/>}/>
+        {/* Shared Protected Routes (both roles) */}
+        <Route element={<ProtectedRoute allowedRoles={['jobseeker', 'employer']} />}>
+          <Route path="/interview/questions" element={<InterviewQuestions />} />
+          <Route path="/resume/builder" element={<ResumeBuilder />} />
+          <Route path="/all-resumelist" element={<AllResumeList />} />
+          <Route path="/resume-builder/templates/list" element={<ResumeTemplates />} />
+        </Route>
 
-        <Route path='/dashboard/jobseeker' element={<JobseekerDashboard/>}/>
-        <Route path='/jobseeker/update-profile' element={<UpdateJobseekerProfile/>}/>
-        <Route path='/jobs/all' element={<AllListedJobs/>}/>
-        <Route path='/job-application/:id' element={<JobApplicationPage/>}/>
-        <Route path='/jobseeker/all-applications' element={<AllApplications/>}/>
-        <Route path='/resume-builder/templates/list' element={<ResumeTemplates/>}/>
-        <Route path='*' element={<NotFound/>}/>
-
+        {/* 404 Fallback */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
-      
     </div>
+    // <div>
+    //   <Navbar/>
+      
+    //   <Routes>
+    //     {/* {routes for login & signup} */}
+    //     <Route path='/' element={<Login/>}/>
+    //     <Route path='/choose-role' element={<ChooseRole/>}/>
+    //     <Route path='/signup/employer' element={<EmployerSignup/>}/>
+    //     <Route path='/signup/jobseeker' element={<JobSeekerSignup/>}/>
+        
+    //     {/* {empolyer routes} */}
+    //     <Route path='/dashboard/employer' element={<EmployerDashboard/>}/>
+    //     <Route path='/employer/update-profile' element={<UpdateEmployerProfile/>}/>
+    //     <Route path='/employer/create-openings' element={<CreateJobForm/>}/>
+    //     <Route path='/employer/created-jobs' element={<EmployerCreatedJobs/>}/>
+    //     <Route path='/applications/employer/job/:id' element={<ReceivedApplicationsPage/>}/>
+    //     <Route path='/application/:id' element={<ViewApplicationPage/>}/>
+    //     <Route path='/employer/resume-score' element={<ResumeScoreAnalysis/>}/>
+    //     <Route path='/employer/update-job/:id' element={<UpdateJob/>}/>
+    //     <Route path='/employer/interview/web-cam' element={<ProctoringDemo/>}/>
+
+    //     {/* {comman routes} */}
+    //     <Route path='/interview/questions' element={<InterviewQuestions/>}/>
+    //     <Route path='/resume/builder' element={<ResumeBuilder/>}/>
+    //     <Route path='/all-resumelist' element={<AllResumeList/>}/>
+    //     <Route path='/resume-builder/templates/list' element={<ResumeTemplates/>}/>
+
+    //     {/* {jobseeker routes} */}
+    //     <Route path='/dashboard/jobseeker' element={<JobseekerDashboard/>}/>
+    //     <Route path='/jobseeker/update-profile' element={<UpdateJobseekerProfile/>}/>
+    //     <Route path='/jobs/all' element={<AllListedJobs/>}/>
+    //     <Route path='/job-application/:id' element={<JobApplicationPage/>}/>
+    //     <Route path='/jobseeker/all-applications' element={<AllApplications/>}/>
+        
+
+    //     {/* {unauthorised route or error404 route} */}
+    //     <Route path='*' element={<NotFound/>}/>
+
+    //   </Routes>
+      
+    // </div>
   )
 }
 

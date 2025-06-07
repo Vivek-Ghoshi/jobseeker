@@ -11,9 +11,10 @@ const EmployerCreatedJobs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { jobs } = useSelector((state) => state.employer);
+  console.log(jobs);
   useEffect(() => {
     dispatch(listEmployerJobs());
-  }, [dispatch,jobs]);
+  }, [dispatch]);
   
   const deleteHandler = (id)=>{
     dispatch(deleteJob(id));
@@ -27,7 +28,7 @@ const EmployerCreatedJobs = () => {
   {jobs &&
     jobs.map((job) => (
       <div
-        key={job._id}
+        key={job.id}
         className="w-full max-w-6xl bg-[#1e293b] rounded-xl shadow-md hover:shadow-cyan-600/30 transition-all duration-300 p-4 sm:p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
       >
         {/* Job Info */}
