@@ -27,7 +27,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const response = await dispatch(login(data));
     if(login.fulfilled.match(response)){
-      navigate(`/dashboard/${role}`);
+      navigate(`/dashboard/${lrole}`);
     }
   };
 
@@ -44,7 +44,7 @@ const Login = () => {
           <button
             onClick={() => setlRole('jobseeker')}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition 
-              ${role === 'jobseeker' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'}
+              ${lrole === 'jobseeker' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'}
               hover:bg-blue-500`}
           >
             <User size={16} /> Job Seeker
@@ -52,7 +52,7 @@ const Login = () => {
           <button
             onClick={() => setlRole('employer')}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition 
-              ${role === 'employer' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'}
+              ${lrole === 'employer' ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'}
               hover:bg-green-500`}
           >
             <Briefcase size={16} /> Employer

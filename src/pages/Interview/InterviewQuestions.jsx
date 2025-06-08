@@ -60,10 +60,9 @@ import { generateInterviewQuestions } from "../../redux/slices/interviewSlice";
     
 const InterviewQuestions = () => {
   const dispatch = useDispatch();
-  // const { questions, loading, error } = useSelector((state) => state.interviewSlice);
-  const loading = null;
+  // const { questions, loading,error} = useSelector((state) => state.interview);
   const error = null;
-
+  const loading = null;
   const [collapsed, setCollapsed] = useState(false);
   const [openSection, setOpenSection] = useState(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -142,7 +141,7 @@ const InterviewQuestions = () => {
                   {openSection === section && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
+                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                       className="px-4 py-3 space-y-3 bg-[#1e293b]/70"

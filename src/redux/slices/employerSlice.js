@@ -9,7 +9,9 @@ export const getEmployerProfile = createAsyncThunk(
       const res = await apiInstance.get("/employers/me");
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to fetch employer profile");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to fetch employer profile"
+      );
     }
   }
 );
@@ -17,13 +19,15 @@ export const getEmployerProfile = createAsyncThunk(
 // ✅ Update Employer Profile
 export const updateEmployerProfile = createAsyncThunk(
   "employer/updateProfile",
-  async (data,thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
       const res = await apiInstance.put("/employers/me", data);
       await thunkAPI.dispatch(getEmployerProfile());
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to update profile");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to update profile"
+      );
     }
   }
 );
@@ -36,7 +40,9 @@ export const createJob = createAsyncThunk(
       const res = await apiInstance.post("/jobs", data);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to create job");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to create job"
+      );
     }
   }
 );
@@ -49,7 +55,9 @@ export const updateJob = createAsyncThunk(
       const res = await apiInstance.put(`/jobs/${id}`, data);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to update job");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to update job"
+      );
     }
   }
 );
@@ -62,7 +70,9 @@ export const deleteJob = createAsyncThunk(
       const res = await apiInstance.delete(`/jobs/${id}`);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to delete job");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to delete job"
+      );
     }
   }
 );
@@ -75,7 +85,9 @@ export const listEmployerJobs = createAsyncThunk(
       const res = await apiInstance.get("/jobs/employer");
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to list jobs");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to list jobs"
+      );
     }
   }
 );
@@ -85,13 +97,13 @@ export const listApplicationsForJob = createAsyncThunk(
   "employer/listApplications",
   async (jobId, { rejectWithValue }) => {
     try {
-      console.log("application khojne jaa rha huu");
       const res = await apiInstance.get(`/applications/employer/job/${jobId}`);
-      console.log('application khoj laya');
       return res.data;
     } catch (err) {
-      console.error("error in fetching applications : ",err)
-      return rejectWithValue(err.response?.data?.message || "Failed to load applications");
+      console.error("error in fetching applications : ", err);
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to load applications"
+      );
     }
   }
 );
@@ -104,7 +116,9 @@ export const updateApplicationStatus = createAsyncThunk(
       const res = await apiInstance.put(`/applications/${id}`, data);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to update status");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to update status"
+      );
     }
   }
 );
@@ -114,11 +128,14 @@ export const scoreApplicationResume = createAsyncThunk(
   "employer/scoreResume",
   async (appId, { rejectWithValue }) => {
     try {
-      const res = await apiInstance.get(`/resume-analysis/applications/${appId}/score`);
-      console.log(res);
+      const res = await apiInstance.get(
+        `/resume-analysis/applications/${appId}/score`
+      );
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to score resume");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to score resume"
+      );
     }
   }
 );
@@ -128,11 +145,14 @@ export const getApplicantResume = createAsyncThunk(
   "employer/getApplicantResume",
   async (applicationId, { rejectWithValue }) => {
     try {
-      const res = await apiInstance.get(`/applications/resume/${applicationId}`);
-      console.log(res);
+      const res = await apiInstance.get(
+        `/applications/resume/${applicationId}`
+      );
       return res.data.resume_url;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to fetch applicant resume");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to fetch applicant resume"
+      );
     }
   }
 );
@@ -146,7 +166,9 @@ export const getApplication = createAsyncThunk(
       return res.data;
     } catch (err) {
       console.log(err);
-      return rejectWithValue(err.response?.data?.message || "Failed to fetch application");
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to fetch application"
+      );
     }
   }
 );
@@ -161,16 +183,16 @@ const employerSlice = createSlice({
     selectedApplication: null,
     applicantResume: null,
     resumeScore: null,
-    workspace:[],
+    workspace: [],
     loading: false,
     error: null,
-
+    scores: [],
   },
-    reducers: {
+  reducers: {
     addQuestion: (state, action) => {
-     if(!state.workspace){
-      state.workspace = [];
-     }
+      if (!state.workspace) {
+        state.workspace = [];
+      }
       state.workspace.push(action.payload);
     },
     removeQuestion: (state, action) => {
@@ -189,17 +211,29 @@ const employerSlice = createSlice({
         state.jobs = action.payload;
       })
       .addCase(listApplicationsForJob.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.applications = action.payload;
       })
       .addCase(getApplication.fulfilled, (state, action) => {
-        
         state.selectedApplication = action.payload;
       })
       .addCase(getApplicantResume.fulfilled, (state, action) => {
         state.applicantResume = action.payload;
       })
       .addCase(scoreApplicationResume.fulfilled, (state, action) => {
+        if (!Array.isArray(state.scores)) {
+          state.scores = []; //  ensure safety before push
+        }
+
+        const { application_id, score_result } = action.payload;
+        const overall_score = score_result?.overall_score;
+
+        const alreadyExists = state.scores.find(
+          (item) => item.application_id === application_id
+        );
+
+        if (!alreadyExists) {
+          state.scores.push({ application_id, overall_score });
+        }
         state.resumeScore = action.payload;
       })
       .addMatcher(
@@ -230,6 +264,7 @@ const employerSlice = createSlice({
       );
   },
 });
-export const { addQuestion, removeQuestion, clearAllQuestions } = employerSlice.actions;
+export const { addQuestion, removeQuestion, clearAllQuestions } =
+  employerSlice.actions;
 
 export default employerSlice.reducer;

@@ -2,6 +2,7 @@ import React from 'react'
 import Scorecard from './ScoreCard';
 import ProctoringDemo from './ProctoringDemo';
 import InterviewQuestions from './InterviewQuestions';
+import { useSelector } from 'react-redux';
 const questions = {
     "questions": {
         "Basic background and introduction questions": [
@@ -57,8 +58,8 @@ const questions = {
     },
     "max_possible_score": 100
 }
-const InterviewPage = () => {
-    
+const ExamPage = () => {
+    const {questions} = useSelector(state => state.interview);
     const handleScoreSubmit = (data) => {
      console.log("Submitting to backend:", data);
     // dispatch(submitScoreThunk(data)) or call API
@@ -72,7 +73,7 @@ const InterviewPage = () => {
   )
 }
 
-export default InterviewPage
+export default ExamPage
 
 
 

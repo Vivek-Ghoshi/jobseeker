@@ -21,12 +21,16 @@ import AllResumeList from './pages/resume/AllResumeList'
 import ResumeScoreAnalysis from './pages/resume/ResumeScoreAnalysis'
 import UpdateJob from './pages/Jobs/UpdateJob'
 import NotFound from './pages/auth/NotFound'
-import ProctoringDemo from './pages/Interview/ProctoringDemo'
 import InterviewQuestions from './pages/Interview/InterviewQuestions'
 import Unauthorized from './pages/auth/Unauthorized'
 import ProtectedRoute from './utils/ProtectedRoute'
-import InterviewPage from './pages/Interview/InterviewPage'
 import ScheduledInterviews from './pages/Interview/ScheduledInterviewes'
+import InterviewReportCard from './pages/Interview/InterviewReportCard'
+import AllScoreCards from './pages/Interview/AllScoreCards'
+import MeetingDetailsPage from './pages/Interview/MeetingDetailsPage'
+import SelectTimeSlots from './pages/timeSlots/SelectTimeSlots'
+import InterviewMeeting from './pages/Interview/InterviewMeeting'
+import ExamPage from './pages/Interview/ExamPage'
 
 const App = () => {
   return (
@@ -45,14 +49,15 @@ const App = () => {
           <Route path="/dashboard/employer" element={<EmployerDashboard />} />
           <Route path="/employer/update-profile" element={<UpdateEmployerProfile />} />
           <Route path="/employer/create-openings" element={<CreateJobForm />} />
-          <Route path="/employer/interview" element={<InterviewPage />} />
           <Route path="/employer/created-jobs" element={<EmployerCreatedJobs />} />
           <Route path="/applications/employer/job/:id" element={<ReceivedApplicationsPage />} />
           <Route path="/application/:id" element={<ViewApplicationPage />} />
+          <Route path="/application/report-card/:id" element={<InterviewReportCard/>} />
+          <Route path="/applications/report-card/all/:id" element={<AllScoreCards/>} />
           <Route path="/sheduled/interviews" element={<ScheduledInterviews />} />
+          
           <Route path="/employer/resume-score" element={<ResumeScoreAnalysis />} />
           <Route path="/employer/update-job/:id" element={<UpdateJob />} />
-          {/* <Route path="/employer/interview/web-cam" element={<ProctoringDemo />} /> */}
         </Route>
 
         {/* Jobseeker Protected Routes */}
@@ -61,8 +66,9 @@ const App = () => {
           <Route path="/jobseeker/update-profile" element={<UpdateJobseekerProfile />} />
           <Route path="/jobs/all" element={<AllListedJobs />} />
           <Route path="/job-application/:id" element={<JobApplicationPage />} />
-          <Route path="/exam" element={<InterviewPage />} />
+          <Route path="/exam" element={<ExamPage />} />
           <Route path="/jobseeker/all-applications" element={<AllApplications />} />
+          <Route path="/select/interview/timeslots" element={<SelectTimeSlots />} />
         </Route>
 
         {/* Shared Protected Routes (both roles) */}
@@ -71,6 +77,8 @@ const App = () => {
           <Route path="/resume/builder" element={<ResumeBuilder />} />
           <Route path="/all-resumelist" element={<AllResumeList />} />
           <Route path="/resume-builder/templates/list" element={<ResumeTemplates />} />
+          <Route path="/meeting/details" element={<MeetingDetailsPage />} />
+          <Route path="/meeting/page" element={<InterviewMeeting />} />
         </Route>
 
         {/* 404 Fallback */}

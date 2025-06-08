@@ -1,4 +1,4 @@
-import { Pencil, Trash2, Briefcase, IndianRupee, Users } from 'lucide-react';
+import { Pencil, Trash2, Briefcase, IndianRupee, Users ,FileText} from 'lucide-react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteJob, listEmployerJobs } from '../../redux/slices/employerSlice';
@@ -49,13 +49,20 @@ const EmployerCreatedJobs = () => {
         </div>
 
         {/* Actions */}
-        <div className="w-full md:w-auto flex flex-col sm:flex-row md:flex-col gap-2 sm:gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 w-full md:w-auto">
           <button
             onClick={() => navigate(`/employer/update-job/${job.id}`)}
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-500 transition text-white text-sm font-medium"
           >
             <Pencil className="w-4 h-4" />
             Update
+          </button>
+          <button
+            onClick={() => navigate(`/applications/report-card/all/${job.id}`)}
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-yellow-600 hover:bg-cyan-500 transition text-white text-sm font-medium"
+          >
+            <FileText className="w-4 h-4" />
+            ReportCards
           </button>
 
           <button

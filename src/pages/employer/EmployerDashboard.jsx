@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { getEmployerProfile } from '../../redux/slices/employerSlice';
+import { MeetingsList } from '../../redux/slices/interviewSlice';
 
 const EmployerDashboard = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ const EmployerDashboard = () => {
   useEffect(()=>{
         dispatch(getEmployerProfile());
   },[dispatch]);
+  useEffect(()=>{
+         dispatch(MeetingsList());
+    },[dispatch])
   return (
     <div className="flex bg-black text-white min-h-screen items-start sm:items-center pt-10 sm:pt-0">
       {/* Sidebar - Hidden on mobile */}

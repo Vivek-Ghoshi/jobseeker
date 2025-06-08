@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {AnimatePresence} from "framer-motion"
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import {
   Menu,
   X,
@@ -21,6 +21,7 @@ import WorkSpace from "./WorkSpace";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   const [showWorkspace, setShowWorkspace] = useState(false);
   const navigate = useNavigate();
   const { user, role } = useSelector((state) => state.auth);
@@ -32,6 +33,7 @@ const Navbar = () => {
       localStorage.clear();
       sessionStorage.clear();
       navigate("/", { replace: true });
+      window.location.reload();
     } catch (err) {
       console.error("Logout error:", err);
     }
@@ -121,15 +123,13 @@ const Navbar = () => {
     <nav className="bg-[#0f172a] text-white w-full z-40 shadow-md border-b border-zinc-700 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <div className="flex items-center space-x-2">
             <Briefcase size={26} className="text-cyan-400" />
             <h1 className="text-xl sm:text-2xl font-bold text-white tracking-wide">
-              JobSeeker
+              Smart ATS
             </h1>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6 items-center">
             {!isLoggedIn ? (
               <Link
@@ -149,20 +149,26 @@ const Navbar = () => {
                   Back
                 </button>
 
-                <button
-                  onClick={() => setShowWorkspace((prev) => !prev)}
-                  className="flex items-center hover:text-cyan-400 transition"
-                >
-                  WorkSpace
-                </button>
-                <AnimatePresence>
-                  {showWorkspace && (
-                    <WorkSpace
-                      key="workspace"
-                      onClose={() => setShowWorkspace(false)}
-                    />
-                  )}
-                </AnimatePresence>
+                {role !== "jobseeker" && (
+                  <>
+                    <button
+                      onClick={() => setShowWorkspace((prev) => !prev)}
+                      className="flex items-center hover:text-cyan-400 transition"
+                    >
+                      WorkSpace
+                    </button>
+                    
+                    <AnimatePresence>
+                      {showWorkspace && (
+                        <WorkSpace
+                          key="workspace"
+                          onClose={() => setShowWorkspace(false)}
+                        />
+                      )}
+                    </AnimatePresence>
+                  </>
+                )}
+
                 <Link
                   to={`/dashboard/${role}`}
                   className="flex items-center hover:text-cyan-400 transition"
@@ -182,7 +188,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Hamburger Toggle */}
           <div className="md:hidden flex items-center">
             <button onClick={toggleMenu}>
               {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -191,7 +196,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Floating Drawer */}
       {isOpen && (
         <div className="absolute top-0 right-0 w-64 h-screen bg-black shadow-2xl z-50 p-6 space-y-4 transition-all duration-300 animate-slide-left">
           {!isLoggedIn ? (
@@ -225,7 +229,6 @@ const Navbar = () => {
                 Dashboard
               </Link>
 
-              {/* Sidebar links */}
               <div className="pt-2 space-y-2 border-t border-zinc-600">
                 {links.map((item, index) => (
                   <Link

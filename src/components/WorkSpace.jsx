@@ -56,7 +56,7 @@ const WorkSpace = ({ onClose }) => {
    <motion.div
   key="workspace"
   initial={{ opacity: 0, scale: 0.9, y: 30 }}
-  animate={{ opacity: 1, scale: 1, y: 0, x: position.x, y: position.y }}
+  animate={{ opacity: 1, scale: 1,  x: position.x, y: position.y }}
   exit={{ opacity: 0, scale: 0.95, y: 40 }}
   transition={{ duration: 0.3, ease: 'easeInOut' }}
   drag
