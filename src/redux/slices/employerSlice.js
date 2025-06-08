@@ -173,6 +173,32 @@ export const getApplication = createAsyncThunk(
   }
 );
 
+export const getJobEvaluations = createAsyncThunk(
+  'evaluations/getByJobId',
+  async (jobId, { rejectWithValue }) => {
+    try {
+    
+      const response = await apiInstance.get(`/suitability/job/${jobId}/evaluations`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const evaluateApplication = createAsyncThunk(
+  'evaluations/evaluateApplication',
+  async (applicationId, { rejectWithValue }) => {
+    try {
+      const response = await apiInstance.get(`/suitability/evaluate/${applicationId}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+
 // 🔁 Slice
 const employerSlice = createSlice({
   name: "employer",
@@ -187,6 +213,8 @@ const employerSlice = createSlice({
     loading: false,
     error: null,
     scores: [],
+    jobEvaluations: [],
+    evaluatedApplication: null,
   },
   reducers: {
     addQuestion: (state, action) => {
@@ -235,6 +263,12 @@ const employerSlice = createSlice({
           state.scores.push({ application_id, overall_score });
         }
         state.resumeScore = action.payload;
+      })
+      .addCase(getJobEvaluations.fulfilled, (state, action) => {
+        state.jobEvaluations = action.payload;
+      })
+      .addCase(evaluateApplication.fulfilled, (state, action) => {
+        state.evaluatedApplication = action.payload;
       })
       .addMatcher(
         (action) =>

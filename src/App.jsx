@@ -31,6 +31,8 @@ import MeetingDetailsPage from './pages/Interview/MeetingDetailsPage'
 import SelectTimeSlots from './pages/timeSlots/SelectTimeSlots'
 import InterviewMeeting from './pages/Interview/InterviewMeeting'
 import ExamPage from './pages/Interview/ExamPage'
+import EvaluateApplicationPage from './pages/employer/EvalutateApplicationPage'
+import JobEvaluationsPage from './pages/Jobs/JobEvalutionsPage'
 
 const App = () => {
   return (
@@ -51,6 +53,8 @@ const App = () => {
           <Route path="/employer/create-openings" element={<CreateJobForm />} />
           <Route path="/employer/created-jobs" element={<EmployerCreatedJobs />} />
           <Route path="/applications/employer/job/:id" element={<ReceivedApplicationsPage />} />
+          <Route path="/job/:id/evaluations" element={<JobEvaluationsPage />} />
+          <Route path="/application/:id/evaluate" element={<EvaluateApplicationPage />} />
           <Route path="/application/:id" element={<ViewApplicationPage />} />
           <Route path="/application/report-card/:id" element={<InterviewReportCard/>} />
           <Route path="/applications/report-card/all/:id" element={<AllScoreCards/>} />

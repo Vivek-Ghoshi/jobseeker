@@ -107,6 +107,14 @@ const ReceivedApplicationsPage = () => {
                 key={app.id}
                 className="bg-[#1e293b] border border-cyan-700 rounded-xl shadow-lg p-6 md:p-8 hover:shadow-cyan-600/30 transition-all duration-300"
               >
+                 <div className="w-full mb-3 ml-2">
+              <button
+                onClick={() => navigate(`/application/${app.id}/evaluate`)}
+                className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-500 hover:from-emerald-500 hover:to-green-400 transition-all text-white text-md font-semibold shadow-md hover:shadow-emerald-400/50"
+              >
+                Suitability
+              </button>
+            </div>
                 <div className="flex flex-col gap-5">
                   {/* Name & Status */}
                   <div className="flex items-center justify-between">
