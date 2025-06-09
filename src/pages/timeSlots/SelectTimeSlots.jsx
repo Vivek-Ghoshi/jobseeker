@@ -13,11 +13,13 @@ const SelectTimeSlots = () => {
     const navigate = useNavigate();
   const dispatch = useDispatch();
   const { timeSlots } = useSelector((state) => state.interview);
+  console.log(timeSlots);
   useEffect(() => {
     dispatch(listTimeSlots());
   }, [dispatch]);
   dayjs.extend(utc);
   dayjs.extend(timezone);
+  
   const onSelect = async(id)=>{
      const res = await dispatch(selectTimeSlot(id));
      if(selectTimeSlot.fulfilled.match(res)){

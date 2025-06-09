@@ -42,9 +42,11 @@ export const updateMeeting = createAsyncThunk(
   "meeting/updateMeeting",
   async ({ meetingId, value }, thunkAPI) => {
     try {
+      console.log(meetingId,value);
       const res = await apiInstance.patch(`/meetings/${meetingId}`, {
         status: value,
       });
+      console.log(res);
       await thunkAPI.dispatch(MeetingsList());
       return res.data;
     } catch (err) {
@@ -60,7 +62,9 @@ export const cancelMeeting = createAsyncThunk(
   "meeting/cancelMeeting",
   async (meetingId) => {
     try {
+      console.log(meetingId);
       const res = await apiInstance.post(`/meetings/${meetingId}/cancel`);
+      console.log(res);
       return res.data;
     } catch (err) {
       return console.error(err.response?.data?.message || "Cancel failed");
@@ -164,11 +168,13 @@ export const selectTimeSlot = createAsyncThunk(
 // 4. POST - Cancel Time Slot
 export const cancelTimeSlot = createAsyncThunk(
   "timeSlots/cancel",
-  async (timeSlotId, thunkAPI) => {
+  async (timeSlotId) => {
     try {
+      console.log(timeSlotId);
       const res = await apiInstance.post(
         `/time-slots/${timeSlotId}/cancel`
       );
+      console.log(res);
       return { ...res.data, timeSlotId };
     } catch (err) {
       console.error("Cancel TimeSlot Error:", err.message);
@@ -239,10 +245,10 @@ const interviewSlice = createSlice({
       })
       .addCase(cancelMeeting.fulfilled, (state, action) => {
         const cancelled = action.payload;
-
+  
         if (state.meetingsData && Array.isArray(state.meetingsData.meetings)) {
           state.meetingsData.meetings = state.meetingsData.meetings.filter(
-            (meeting) => meeting.meeting_id !== cancelled.meeting_id
+            (meeting) => meeting?.meeting_id !== cancelled.meeting_id
           );
         }
       })

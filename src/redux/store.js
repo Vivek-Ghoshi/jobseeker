@@ -8,13 +8,14 @@ import jobSeekerReducer from '../redux/slices/jobSeekerSlice';
 import textToSpeechReducer from '../redux/slices/textToSpeechSlice';
 import resumeBuilderReducer from '../redux/slices/resumeBuilderSlice';
 import interviewReducer from "../redux/slices/interviewSlice";
+import candidateVerificationReducer from '../redux/slices/candidateVerificationSlice';
 
 
 // Persist config only for 'auth'
 const persistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['auth','employer','jobseeker','textToSpeech','resumeBuilder','interview'],
+  whitelist: ['auth','employer','jobseeker','textToSpeech','resumeBuilder','interview','candidateVerification'],
 };
 
 // Combine all reducers
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   jobseeker: jobSeekerReducer,
   textToSpeech: textToSpeechReducer,
   resumebuilder: resumeBuilderReducer,
-  interview: interviewReducer
+  interview: interviewReducer,
+  candidateVerification:candidateVerificationReducer 
 });
 const persistedRootReducer = persistReducer(persistConfig, rootReducer);
 // Create store

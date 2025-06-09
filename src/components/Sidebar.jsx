@@ -42,6 +42,11 @@ const Sidebar = ({ role = 'jobseeker' }) => {
       path: '/sheduled/interviews',
       icon: <Calendar size={20} />,
     },
+    {
+      name: 'Time Slots',
+      path: '/all/time-slots-created',
+      icon: <Calendar size={20} />,
+    },
     
   ];
 
@@ -63,7 +68,7 @@ const Sidebar = ({ role = 'jobseeker' }) => {
     },
     {
       name: 'Exam page',
-      path: '/exam',
+      path: '/upload-face',
       icon: <BookA size={20} />,
     },
     {

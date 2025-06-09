@@ -4,11 +4,12 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { cancelMeeting, getMeeting, MeetingsList, updateMeeting } from '../../redux/slices/interviewSlice';
-
+  
 const ScheduledMeetings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {meetingsData} = useSelector((state) => state.interview);
+  console.log(meetingsData);
     useEffect(()=>{
        dispatch(MeetingsList());
   },[dispatch])
@@ -23,7 +24,9 @@ const ScheduledMeetings = () => {
 
   const handleCancel = async (id) => {
     try {
+      console.log("chala",id);
        await dispatch(cancelMeeting(id));  
+       console.log("waps aaya");
     } catch (error) {
       console.error("Cancel failed:", error);
     }

@@ -42,13 +42,14 @@ const EmployerCreatedJobs = () => {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="w-full  max-w-6xl backdrop-blur-md bg-gradient-to-br from-[#0f172a] to-[#1e293b] border border-cyan-800/40 rounded-2xl shadow-2xl hover:shadow-cyan-500/40 transition-all duration-300 p-4 sm:p-6 md:p-8 flex flex-col md:flex-col justify-between items-start md:items-center gap-6"
           >
-            <div className="w-full">
+            <div className="w-full flex gap-4">
               <button
                 onClick={() => navigate(`/job/${job.id}/evaluations`)}
                 className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-500 hover:from-emerald-500 hover:to-green-400 transition-all text-white text-md font-semibold shadow-md hover:shadow-emerald-400/50"
               >
                 See Evaluation
               </button>
+            
             </div>
             <div className="flex w-full">
             {/* Job Info */}

@@ -22,6 +22,7 @@ const AllApplications = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { applications } = useSelector((state) => state.jobseeker);
+  console.log(applications);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
 

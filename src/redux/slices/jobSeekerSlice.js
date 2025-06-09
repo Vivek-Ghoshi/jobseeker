@@ -45,9 +45,10 @@ export const updateJobSeekerProfileExtended = createAsyncThunk(
 // List All Public Jobs
 export const listAllJobs = createAsyncThunk(
   "jobseeker/listJobs",
-  async (_, { rejectWithValue }) => {
+  async (thunkAPI, { rejectWithValue }) => {
     try {
       const res = await apiInstance.get("/jobs");
+      await thunkAPI.dispatch(listJobSeekerApplications());
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to load jobs");

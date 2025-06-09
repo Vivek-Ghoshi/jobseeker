@@ -33,6 +33,9 @@ import InterviewMeeting from './pages/Interview/InterviewMeeting'
 import ExamPage from './pages/Interview/ExamPage'
 import EvaluateApplicationPage from './pages/employer/EvalutateApplicationPage'
 import JobEvaluationsPage from './pages/Jobs/JobEvalutionsPage'
+import FaceValidation from './components/FaceValidation'
+import UploadPage from './pages/Interview/UploadPage'
+import EmployerCreatedTimeSlots from './pages/employer/EmployerCreatedTimeSlots'
 
 const App = () => {
   return (
@@ -62,6 +65,7 @@ const App = () => {
           
           <Route path="/employer/resume-score" element={<ResumeScoreAnalysis />} />
           <Route path="/employer/update-job/:id" element={<UpdateJob />} />
+          <Route path="/all/time-slots-created" element={<EmployerCreatedTimeSlots />} />
         </Route>
 
         {/* Jobseeker Protected Routes */}
@@ -70,6 +74,8 @@ const App = () => {
           <Route path="/jobseeker/update-profile" element={<UpdateJobseekerProfile />} />
           <Route path="/jobs/all" element={<AllListedJobs />} />
           <Route path="/job-application/:id" element={<JobApplicationPage />} />
+          <Route path="/upload-face" element={<UploadPage />} />
+          <Route path="/validate-face" element={<FaceValidation />} />
           <Route path="/exam" element={<ExamPage />} />
           <Route path="/jobseeker/all-applications" element={<AllApplications />} />
           <Route path="/select/interview/timeslots" element={<SelectTimeSlots />} />
