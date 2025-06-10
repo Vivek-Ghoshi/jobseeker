@@ -33,7 +33,7 @@ const ViewApplicationPage = () => {
   const { selectedApplication, applicantResume } = useSelector(
     (state) => state.employer
   );
-
+ console.log(selectedApplication);
   const [status, setStatus] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -102,7 +102,7 @@ const ViewApplicationPage = () => {
     try {
       const res = await dispatch(scheduleInterview(payload));
       if (scheduleInterview.fulfilled.match(res)) {
-        navigate("/scheduled/interviews"); // Corrected typo here
+        navigate(`/sheduled/interviews/${selectedApplication.job_id}`);
       }
     } catch (error) {
       console.error("createHandler : ", error);
