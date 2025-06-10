@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiInstance from "../../utils/apiInstance";
+import { listAllJobs } from "./jobSeekerSlice";
 
 // ✅ Get Employer Profile
 export const getEmployerProfile = createAsyncThunk(
@@ -65,9 +66,10 @@ export const updateJob = createAsyncThunk(
 // ✅ Delete Job
 export const deleteJob = createAsyncThunk(
   "employer/deleteJob",
-  async (id, { rejectWithValue }) => {
+  async (id, thunkAPI) => {
     try {
       const res = await apiInstance.delete(`/jobs/${id}`);
+      await thunkAPI.dispatch(listAllJobs());
       return res.data;
     } catch (err) {
       return rejectWithValue(
@@ -133,6 +135,7 @@ export const scoreApplicationResume = createAsyncThunk(
       );
       return res.data;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(
         err.response?.data?.message || "Failed to score resume"
       );
@@ -148,9 +151,12 @@ export const getApplicantResume = createAsyncThunk(
       const res = await apiInstance.get(
         `/applications/resume/${applicationId}`
       );
+      console.log(res);
       return res.data.resume_url;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(
+
         err.response?.data?.message || "Failed to fetch applicant resume"
       );
     }

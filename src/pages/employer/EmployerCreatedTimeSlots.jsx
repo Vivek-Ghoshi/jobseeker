@@ -7,13 +7,15 @@ import {
   cancelTimeSlot,
   listTimeSlots,
 } from '../../redux/slices/interviewSlice';
+import { useParams } from 'react-router';
 
 const EmployerCreatedTimeSlots = () => {
   const dispatch = useDispatch();
+  const {id:jobId} = useParams();
   const { timeSlots, loading, error } = useSelector((state) => state.interview);
 
   useEffect(() => {
-    dispatch(listTimeSlots());
+    dispatch(listTimeSlots(jobId));
   }, [dispatch]);
 
   const handleCancel = (slotId) => {

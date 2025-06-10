@@ -45,13 +45,16 @@ export const updateJobSeekerProfileExtended = createAsyncThunk(
 // List All Public Jobs
 export const listAllJobs = createAsyncThunk(
   "jobseeker/listJobs",
-  async (thunkAPI, { rejectWithValue }) => {
+  async (_, thunkAPI) => {
     try {
       const res = await apiInstance.get("/jobs");
       await thunkAPI.dispatch(listJobSeekerApplications());
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to load jobs");
+      console.error("error in listing jobs : ", err);
+      return thunkAPI.rejectWithValue(
+        err.response?.data?.message || "Failed to load jobs"
+      );
     }
   }
 );
@@ -75,8 +78,10 @@ export const createApplication = createAsyncThunk(
   async (applicationData, { rejectWithValue }) => {
     try {
       const res = await apiInstance.post("/applications", applicationData);
+      console.log(res.data);
       return res.data;
     } catch (err) {
+      console.error(err);
       return rejectWithValue(err.response?.data?.message || "Failed to apply for job");
     }
   }

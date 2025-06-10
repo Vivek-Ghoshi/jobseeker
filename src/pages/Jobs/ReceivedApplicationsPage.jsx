@@ -21,7 +21,6 @@ const ReceivedApplicationsPage = () => {
   const navigate = useNavigate();
   const { id: jobId } = useParams();
   const { applications = [], scores = [] } = useSelector((state) => state.employer);
-
   const [loadingId, setLoadingId] = useState(null);
   const [sortOrder, setSortOrder] = useState("default");
 
@@ -52,17 +51,6 @@ const ReceivedApplicationsPage = () => {
     }
   };
 
-  const resumeUrlHandler = async (id) => {
-    const res = await dispatch(getApplicantResume(id));
-    if (getApplicantResume.fulfilled.match(res)) {
-      const url = res.payload;
-      if (url) {
-        window.open(url, "_blank");
-      }
-    } else {
-      console.error("Failed to fetch resume");
-    }
-  };
 
   const sortedApplications = useMemo(() => {
     const withScores = [...applications];
@@ -148,18 +136,7 @@ const ReceivedApplicationsPage = () => {
                       </p>
                     </div>
                   </div>
-
-                  {/* Resume Link */}
-                  <div className="flex items-center gap-3">
-                    <Download className="text-cyan-400 w-5 h-5" />
-                    <button
-                      onClick={() => resumeUrlHandler(app.id)}
-                      className="text-emerald-400 underline hover:text-emerald-300 transition duration-200 text-sm md:text-base"
-                    >
-                      View Resume
-                    </button>
-                  </div>
-
+        
                   {/* Action Buttons */}
                   <div className="flex flex-wrap justify-between gap-4 mt-4">
                     <button

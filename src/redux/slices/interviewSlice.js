@@ -28,9 +28,13 @@ export const scheduleInterview = createAsyncThunk(
     }
   }
 );
-export const MeetingsList = createAsyncThunk("interview/list", async () => {
+export const MeetingsList = createAsyncThunk("interview/list", async (jobId) => {
   try {
-    const res = await apiInstance.get(`/meetings`);
+    const res = await apiInstance.get(`/meetings`,{
+      params:{
+        job_id: jobId,
+      }
+    });
     return res.data;
   } catch (err) {
     console.error("Failed to generate meeting link", err);
@@ -125,7 +129,6 @@ export const createTimeSlots = createAsyncThunk(
   "timeSlots/create",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
       const res = await apiInstance.post("/time-slots", payload);
       return res.data;
     } catch (err) {
@@ -138,9 +141,13 @@ export const createTimeSlots = createAsyncThunk(
 // 2. GET - List Available Time Slots
 export const listTimeSlots = createAsyncThunk(
   "timeSlots/list",
-  async (_, thunkAPI) => {
+  async (jobId, thunkAPI) => {
     try {
-      const res = await apiInstance.get("/time-slots");
+      const res = await apiInstance.get("/time-slots",{
+        params:{
+          job_id:jobId
+        }
+      });
       return res.data.time_slots;
     } catch (err) {
       console.error("List TimeSlots Error:", err.message);
@@ -170,11 +177,9 @@ export const cancelTimeSlot = createAsyncThunk(
   "timeSlots/cancel",
   async (timeSlotId) => {
     try {
-      console.log(timeSlotId);
       const res = await apiInstance.post(
         `/time-slots/${timeSlotId}/cancel`
       );
-      console.log(res);
       return { ...res.data, timeSlotId };
     } catch (err) {
       console.error("Cancel TimeSlot Error:", err.message);

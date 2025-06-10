@@ -37,17 +37,6 @@ const Sidebar = ({ role = 'jobseeker' }) => {
       path: '/employer/created-jobs',
       icon: <FolderOpen size={20} />,
     },
-    {
-      name: 'Interview Schedules',
-      path: '/sheduled/interviews',
-      icon: <Calendar size={20} />,
-    },
-    {
-      name: 'Time Slots',
-      path: '/all/time-slots-created',
-      icon: <Calendar size={20} />,
-    },
-    
   ];
 
   const jobseekerLinks = [

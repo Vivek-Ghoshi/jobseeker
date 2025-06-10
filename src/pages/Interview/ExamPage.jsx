@@ -48,23 +48,3 @@ const ExamPage = () => {
 };
 
 export default ExamPage;
-
-// import Scorecard from "@/components/interview/Scorecard"; // adjust based on your alias/path
-// import { useSelector } from "react-redux";
-
-// const InterviewPage = () => {
-//   const questions = useSelector((state) => state.interview.questions);
-
-//   const handleScoreSubmit = (data) => {
-//     console.log("Submitting to backend:", data);
-//     // dispatch(submitScoreThunk(data)) or call API
-//   };
-
-//   return (
-//     <div>
-//       {/* your page layout and video/interview UI */}
-
-//       {questions && <Scorecard questions={questions} onSubmit={handleScoreSubmit} />}
-//     </div>
-//   );
-// };

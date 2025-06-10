@@ -129,6 +129,7 @@ const initialState = {
   templates: [],
   pdfURL: null,
   uploadedResumeUrl:null,
+  resumeDetails:null,
   loading: false,
   error: null,
 };
@@ -148,7 +149,9 @@ const resumeBuilderSlice = createSlice({
       .addCase(listResumeTemplates.fulfilled, (state, action) => {
         state.templates = action.payload;
       })
-      
+      .addCase(uploadResume.fulfilled,(state,action)=>{
+         state.resumeDetails = action.payload;
+      })
       //get resume url uploaded
       .addCase(getResumeURL.fulfilled,(state,action)=>{
         state.uploadedResumeUrl = action.payload;
@@ -160,7 +163,7 @@ const resumeBuilderSlice = createSlice({
         );
         if (!existing) state.resumes.push(action.payload);
       })
-
+        
       // Delete Resume
       .addCase(deleteResume.fulfilled, (state, action) => {
         state.resumes = state.resumes.filter((r) => r.id !== action.payload);

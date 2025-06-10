@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GripVertical, ChevronUp, ChevronDown, Loader2, AlertTriangle } from "lucide-react";
 import { generateInterviewQuestions } from "../../redux/slices/interviewSlice";
+import TextToSpeechButton from "../../components/TextToSpeechButton";
 
 
    const  questions = {
@@ -152,6 +153,7 @@ const InterviewQuestions = () => {
                           className="p-3 rounded-lg bg-[#0f172a]/80 text-gray-200 border border-cyan-600/20 hover:border-cyan-400 transition"
                         >
                           {q.question}
+                          <TextToSpeechButton text={q.question}/>
                         </div>
                       ))}
                     </motion.div>

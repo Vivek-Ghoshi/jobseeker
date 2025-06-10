@@ -61,11 +61,11 @@ const App = () => {
           <Route path="/application/:id" element={<ViewApplicationPage />} />
           <Route path="/application/report-card/:id" element={<InterviewReportCard/>} />
           <Route path="/applications/report-card/all/:id" element={<AllScoreCards/>} />
-          <Route path="/sheduled/interviews" element={<ScheduledInterviews />} />
+          <Route path="/sheduled/interviews/:id" element={<ScheduledInterviews />} />
           
           <Route path="/employer/resume-score" element={<ResumeScoreAnalysis />} />
           <Route path="/employer/update-job/:id" element={<UpdateJob />} />
-          <Route path="/all/time-slots-created" element={<EmployerCreatedTimeSlots />} />
+          <Route path="/all/time-slots/:id" element={<EmployerCreatedTimeSlots />} />
         </Route>
 
         {/* Jobseeker Protected Routes */}
