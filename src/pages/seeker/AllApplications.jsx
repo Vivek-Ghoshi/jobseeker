@@ -65,8 +65,8 @@ const AllApplications = () => {
         )}
 
         {!loading && fetchError && (
-          <motion.div className="text-center text-red-400 font-medium text-lg" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            ⚠️ Failed to load applications. Please try again later.
+          <motion.div className="text-center text-yellow-400 font-medium text-lg" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            ⚠️  Unable to load applications. Please check your internet connection and try again.
           </motion.div>
         )}
 
