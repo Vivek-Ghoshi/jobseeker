@@ -14,7 +14,7 @@ export const employerSignup = createAsyncThunk(
        await thunkAPI.dispatch(getEmployerProfile());
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+      return console.error(err.res.data);
     }
   }
 );
@@ -29,7 +29,7 @@ export const jobSeekerSignup = createAsyncThunk(
        await thunkAPI.dispatch(getJobSeekerProfile());
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+      return console.error(err.response?.data || err.message);
     }
   }
 );
