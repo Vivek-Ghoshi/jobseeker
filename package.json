@@ -19,6 +19,7 @@
     "dayjs": "^1.11.13",
     "face-api.js": "^0.22.2",
     "framer-motion": "^12.16.0",
+    "html2pdf.js": "^0.10.3",
     "lucide-react": "^0.511.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.44.1",
     "react": "^19.1.0",

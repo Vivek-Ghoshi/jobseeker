@@ -59,7 +59,7 @@ const AllResumeList = () => {
   };
  
   return (
-    <div className="min-h-screen bg-black text-white py-12 px-4 md:px-12 relative">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white py-12 px-4 md:px-12 relative">
       <h1 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-10 text-center">
         <FileText className="inline-block w-8 h-8 mr-2 text-cyan-500" />
         My Resumes
@@ -76,7 +76,7 @@ const AllResumeList = () => {
           {/* Uploaded Resume Card */}
           <div className="mb-10">
             {uploadedResumeUrl ? (
-              <div className="bg-[#1e293b] border border-cyan-700 rounded-xl p-6 shadow-md text-white max-w-xl mx-auto">
+              <div className="bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] border border-cyan-700 rounded-xl p-6 shadow-md text-white max-w-xl mx-auto">
                 <h2 className="text-xl font-bold text-cyan-400 mb-2">
                   <File className="inline-block w-5 h-5 mr-1" />
                   Uploaded Resume
@@ -119,7 +119,7 @@ const AllResumeList = () => {
               {resumes.map((resume) => (
                 <div
                   key={resume.id}
-                  className="bg-[#1e293b] border border-cyan-700 rounded-xl p-6 shadow-md hover:shadow-cyan-600/40 transition-all duration-300"
+                  className="bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] border border-cyan-700 rounded-xl p-6 shadow-md hover:shadow-cyan-600/40 transition-all duration-300"
                 >
                   <div className="mb-4">
                     <h2 className="text-xl font-semibold text-cyan-300">

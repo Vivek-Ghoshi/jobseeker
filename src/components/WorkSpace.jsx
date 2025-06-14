@@ -68,7 +68,7 @@ const WorkSpace = ({ onClose }) => {
       y: prev.y + info.offset.y,
     }))
   }
-  className="fixed z-50 bg-[#0f172a] text-white rounded-2xl w-[95vw] max-w-md max-h-[90vh] bottom-4 right-4 shadow-2xl border border-cyan-500/20"
+  className="fixed z-50 bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white rounded-2xl w-[95vw] max-w-md max-h-[90vh] bottom-4 right-4 shadow-2xl border border-cyan-500/20"
 >
       {/* Header */}
       <div className="flex justify-between items-center px-4 py-3 bg-gradient-to-r from-cyan-600 to-emerald-600 rounded-t-2xl cursor-grab">

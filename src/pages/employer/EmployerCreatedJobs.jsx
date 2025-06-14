@@ -20,6 +20,7 @@ const EmployerCreatedJobs = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { jobs } = useSelector((state) => state.employer);
+  console.log(jobs);
   useEffect(() =>{
     dispatch(listEmployerJobs());
   },[dispatch]);
@@ -28,7 +29,7 @@ const EmployerCreatedJobs = () => {
     dispatch(deleteJob(id));
   };
   return (
-    <div className="min-h-screen bg-black px-4 py-10 flex flex-col gap-6 items-center">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] px-4 py-10 flex flex-col gap-6 items-center">
       <h2 className="font-semibold capitalize text-blue-400 text-center text-lg md:text-xl">
         all job openings created by you...
       </h2>

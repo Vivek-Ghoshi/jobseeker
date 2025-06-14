@@ -35,12 +35,12 @@ const Login = () => {
   const password = watch('password');
 
   return (
-    <div className="min-h-screen flex justify-center items-start sm:items-center pt-10 sm:pt-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4">
-      <div className="bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-white">
+    <div className="min-h-screen flex justify-center items-start sm:items-center pt-10 sm:pt-0 bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] px-4">
+      <div className="bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] rounded-2xl shadow-xl p-8 max-w-md w-full text-white">
         <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
 
         {/* Role Selector */}
-        <div className="flex justify-center mb-4 space-x-4">
+        <div className="flex justify-center mb-4 space-x-4 ">
           <button
             onClick={() => setlRole('jobseeker')}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition 

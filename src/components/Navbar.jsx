@@ -139,7 +139,7 @@ const Navbar = () => {
       : [...jobseekerLinks, ...commonLinks];
 
   return (
-    <nav className="bg-[#0f172a] text-white w-full z-40 shadow-md border-b border-zinc-700 relative">
+    <nav className="bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white w-full z-40 shadow-md border-b border-zinc-700 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-2">

@@ -21,7 +21,7 @@ const JobseekerDashboard = () => {
      dispatch(getJobSeekerProfile());
   },[dispatch])
   return (
-    <div className="flex bg-black text-white min-h-screen">
+    <div className="flex bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white min-h-screen">
       {/* Sidebar */}
       <div className="w-[250px] hidden md:block border-r border-[#1e293b] bg-[#0f172a]">
       <Sidebar role="jobseeker" />
@@ -33,7 +33,7 @@ const JobseekerDashboard = () => {
           initial={{ opacity: 0, scale: 0.98, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-5xl mx-auto bg-[#0d1117] rounded-2xl shadow-xl border border-[#1e293b] px-6 py-8 sm:px-10 sm:py-10"
+          className="w-full max-w-5xl mx-auto bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] rounded-2xl shadow-xl border border-[#1e293b] px-6 py-8 sm:px-10 sm:py-10"
         >
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">

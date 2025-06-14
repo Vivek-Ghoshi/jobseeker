@@ -13,7 +13,7 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white flex flex-col items-center justify-center px-4">
       <h1 className="text-2xl md:text-3xl font-bold mb-6">Facial Verification</h1>
       <UploadImage image={image} setImage={setImage} />
       <button

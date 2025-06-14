@@ -14,7 +14,7 @@ const ResumeTemplates = () => {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen bg-black px-4 py-10 text-white relative">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] px-4 py-10 text-white relative">
       <motion.h1
         className="text-center text-3xl sm:text-4xl font-bold text-cyan-400 mb-10"
         initial={{ opacity: 0, y: -20 }}
@@ -29,7 +29,7 @@ const ResumeTemplates = () => {
           templates.map((template, index) => (
             <motion.div
               key={template.id}
-              className="bg-[#1e293b] border border-cyan-700 rounded-lg shadow-md p-4 flex flex-col hover:shadow-cyan-600/40 transition-all duration-300"
+              className="bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] border border-cyan-700 rounded-lg shadow-md p-4 flex flex-col hover:shadow-cyan-600/40 transition-all duration-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}

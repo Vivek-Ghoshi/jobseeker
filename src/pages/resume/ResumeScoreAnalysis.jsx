@@ -27,7 +27,7 @@ const ResumeScoreAnalysis = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="max-w-5xl mx-auto bg-gradient-to-br from-zinc-900 to-black rounded-2xl shadow-[0_0_15px_#06b6d4] p-6 md:p-10"
+        className="max-w-5xl mx-auto bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] rounded-2xl shadow-[0_0_15px_#06b6d4] p-6 md:p-10"
       >
         <h1 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-6 text-center">
           Resume Score Analysis

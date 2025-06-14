@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiInstance from "../../utils/apiInstance";
 import { listAllJobs } from "./jobSeekerSlice";
+import axios from "axios";
 
 // ✅ Get Employer Profile
 export const getEmployerProfile = createAsyncThunk(
@@ -29,6 +30,57 @@ export const updateEmployerProfile = createAsyncThunk(
       return rejectWithValue(
         err.response?.data?.message || "Failed to update profile"
       );
+    }
+  }
+);
+
+// Thunk to call your AI JD generation API
+export const generateJobDescription = createAsyncThunk(
+  "job/generateJobDescription",
+  async (prompt, { rejectWithValue }) => {
+    try {
+      const res = await fetch("https://auto.tecosys.ai/webhook/ai-jd", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-control-allowed-origin": "*"
+        },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!res.ok) throw new Error("Failed to generate job description");
+
+      const data = await res.json();
+      
+      return data[0].output;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+//thunk for project cost estimation 
+export const fetchProjectEstimate = createAsyncThunk(
+  "estimate/fetch",
+  async (projectData, thunkAPI) => {
+    try {
+      const res = await fetch("https://auto.tecosys.ai/webhook/cost-estimate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch project estimate");
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.log(err)
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );
@@ -70,7 +122,7 @@ export const deleteJob = createAsyncThunk(
     try {
       const res = await apiInstance.delete(`/jobs/${id}`);
       await thunkAPI.dispatch(listAllJobs());
-      return res.data;
+      return id;
     } catch (err) {
       return rejectWithValue(
         err.response?.data?.message || "Failed to delete job"
@@ -156,7 +208,6 @@ export const getApplicantResume = createAsyncThunk(
     } catch (err) {
       console.log(err);
       return rejectWithValue(
-
         err.response?.data?.message || "Failed to fetch applicant resume"
       );
     }
@@ -180,11 +231,12 @@ export const getApplication = createAsyncThunk(
 );
 
 export const getJobEvaluations = createAsyncThunk(
-  'evaluations/getByJobId',
+  "evaluations/getByJobId",
   async (jobId, { rejectWithValue }) => {
     try {
-    
-      const response = await apiInstance.get(`/suitability/job/${jobId}/evaluations`);
+      const response = await apiInstance.get(
+        `/suitability/job/${jobId}/evaluations`
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -193,17 +245,18 @@ export const getJobEvaluations = createAsyncThunk(
 );
 
 export const evaluateApplication = createAsyncThunk(
-  'evaluations/evaluateApplication',
+  "evaluations/evaluateApplication",
   async (applicationId, { rejectWithValue }) => {
     try {
-      const response = await apiInstance.get(`/suitability/evaluate/${applicationId}`);
+      const response = await apiInstance.get(
+        `/suitability/evaluate/${applicationId}`
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
-
 
 // 🔁 Slice
 const employerSlice = createSlice({
@@ -221,6 +274,8 @@ const employerSlice = createSlice({
     scores: [],
     jobEvaluations: [],
     evaluatedApplication: null,
+    jobDetails: null,
+    estimatedCost:null,
   },
   reducers: {
     addQuestion: (state, action) => {
@@ -234,6 +289,9 @@ const employerSlice = createSlice({
     },
     clearAllQuestions: (state) => {
       state.workspace = [];
+    },
+    clearEstimate: (state) => {
+      state.estimatedCost = null;
     },
   },
   extraReducers: (builder) => {
@@ -249,6 +307,9 @@ const employerSlice = createSlice({
       })
       .addCase(getApplication.fulfilled, (state, action) => {
         state.selectedApplication = action.payload;
+      })
+       .addCase(deleteJob.fulfilled, (state, action) => {
+        state.jobs = state.jobs.filter((job) => job.id !== action.payload);
       })
       .addCase(getApplicantResume.fulfilled, (state, action) => {
         state.applicantResume = action.payload;
@@ -275,6 +336,30 @@ const employerSlice = createSlice({
       })
       .addCase(evaluateApplication.fulfilled, (state, action) => {
         state.evaluatedApplication = action.payload;
+      })
+      .addCase(generateJobDescription.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(generateJobDescription.fulfilled, (state, action) => {
+        state.loading = false;
+        state.jobDetails = action.payload;
+      })
+      .addCase(generateJobDescription.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+       .addCase(fetchProjectEstimate.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProjectEstimate.fulfilled, (state, action) => {
+        state.loading = false;
+        state.estimatedCost = action.payload;
+      })
+      .addCase(fetchProjectEstimate.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
       .addMatcher(
         (action) =>
@@ -304,7 +389,7 @@ const employerSlice = createSlice({
       );
   },
 });
-export const { addQuestion, removeQuestion, clearAllQuestions } =
+export const { addQuestion, removeQuestion, clearAllQuestions,clearEstimate } =
   employerSlice.actions;
 
 export default employerSlice.reducer;

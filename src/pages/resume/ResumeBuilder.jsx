@@ -386,7 +386,7 @@ const ResumeBuilder = () => {
   };
 
   return (
-   <div className="min-h-screen bg-gradient-to-br from-zinc-900 to-black text-white px-4 py-10 flex flex-col items-center justify-center">
+   <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white px-4 py-10 flex flex-col items-center justify-center">
   {loading ? (
     <div className="flex justify-center mt-20">
       <Loader className="animate-spin w-8 h-8 text-cyan-500" />

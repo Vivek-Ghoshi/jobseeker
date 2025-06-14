@@ -116,7 +116,7 @@ const JobApplicationPage = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-black text-white px-4 py-10 flex items-center justify-center pt-10"
+      className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white px-4 py-10 flex items-center justify-center pt-10"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}

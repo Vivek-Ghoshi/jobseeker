@@ -5,7 +5,7 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center px-4 py-10 text-center">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white flex flex-col justify-center items-center px-4 py-10 text-center">
       {/* Emoji */}
       <motion.div
         initial={{ scale: 0 }}

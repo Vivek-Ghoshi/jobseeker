@@ -25,7 +25,7 @@ const EmployerDashboard = () => {
          dispatch(MeetingsList());
     },[dispatch])
   return (
-    <div className="flex bg-black text-white min-h-screen items-start sm:items-center pt-10 sm:pt-0">
+    <div className="flex bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white min-h-screen items-start sm:items-center pt-10 sm:pt-0">
       {/* Sidebar - Hidden on mobile */}
       <div className="w-[250px] hidden md:block border-r border-[#1e293b] bg-[#0f172a]">
         <Sidebar role="employer" />
@@ -37,7 +37,7 @@ const EmployerDashboard = () => {
     initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: 'easeOut' }}
-    className="relative bg-gradient-to-br from-[#1e293b] to-[#0f172a] w-full max-w-4xl rounded-2xl shadow-[0_0_20px_#06b6d4] p-6 md:p-10 transition-all duration-300"
+    className="relative bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] w-full max-w-4xl rounded-2xl shadow-[0_0_20px_#06b6d4] p-6 md:p-10 transition-all duration-300"
   >
     {/* Update Profile Button */}
     <div className="md:absolute md:top-4 md:right-4 flex justify-center md:justify-end mb-4 md:mb-0">

@@ -10,6 +10,7 @@ import {
   DockIcon,
   BookA,
   Calendar,
+  IndianRupee,
 } from 'lucide-react';
 
 const Sidebar = ({ role = 'jobseeker' }) => {
@@ -24,7 +25,7 @@ const Sidebar = ({ role = 'jobseeker' }) => {
   const employerLinks = [
     {
       name: 'Create Job',
-      path: '/employer/create-openings',
+      path: '/employer/job-details',
       icon: <PlusCircle size={20} />,
     },
     {
@@ -36,6 +37,11 @@ const Sidebar = ({ role = 'jobseeker' }) => {
       name: 'Your Listed Jobs',
       path: '/employer/created-jobs',
       icon: <FolderOpen size={20} />,
+    },
+    {
+      name: 'Project Estimator',
+      path: '/project-estimator',
+      icon: <IndianRupee size={20} />,
     },
   ];
 
@@ -77,7 +83,7 @@ const Sidebar = ({ role = 'jobseeker' }) => {
     : [...jobseekerLinks, ...commonLinks];
 
   return (
-    <div className="hidden md:flex flex-col w-64 min-h-screen bg-black text-white shadow-lg  py-2 border-r border-zinc-800">
+    <div className="hidden md:flex flex-col w-64 min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white shadow-lg  py-2 border-r border-zinc-800">
       <div className="text-2xl font-extrabold p-6 border-b border-zinc-800 tracking-wide text-cyan-400">
         {role === 'employer' ? 'Employer Panel' : 'JobSeeker Panel'}
       </div>
@@ -86,7 +92,7 @@ const Sidebar = ({ role = 'jobseeker' }) => {
           <Link
             key={index}
             to={item.path}
-            className="flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-200 bg-zinc-900 hover:bg-cyan-700/20 hover:scale-[1.02] hover:shadow-md"
+            className="flex items-center gap-3 px-4 py-3 rounded-md transition-all duration-200 bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] hover:bg-cyan-700/20 hover:scale-[1.02] hover:shadow-md"
           >
             <div className="text-cyan-400">{item.icon}</div>
             <span className="font-medium">{item.name}</span>

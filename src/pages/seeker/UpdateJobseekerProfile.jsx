@@ -69,7 +69,7 @@ const UpdateJobseekerProfile = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black p-6 text-white relative">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] p-6 text-white relative">
       {/* Success Popup */}
       {showSuccess && (
         <div className="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity animate-fadeIn">
@@ -77,7 +77,7 @@ const UpdateJobseekerProfile = () => {
         </div>
       )}
 
-      <div className="w-full max-w-4xl bg-[#1e293b] p-6 md:p-10 rounded-xl shadow-lg">
+      <div className="w-full max-w-4xl bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] p-6 md:p-10 rounded-xl shadow-lg">
         {/* Toggle Buttons */}
         <div className="flex justify-center gap-4 mb-6">
           <button

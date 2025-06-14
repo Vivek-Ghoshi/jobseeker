@@ -36,6 +36,8 @@ import JobEvaluationsPage from './pages/Jobs/JobEvalutionsPage'
 import FaceValidation from './components/FaceValidation'
 import UploadPage from './pages/Interview/UploadPage'
 import EmployerCreatedTimeSlots from './pages/employer/EmployerCreatedTimeSlots'
+import JobDetailsConvo from './pages/Jobs/JobDetailsConvo'
+import ProjectEstimator from './pages/employer/ProjectEstimator'
 
 const App = () => {
   return (
@@ -53,6 +55,8 @@ const App = () => {
         <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
           <Route path="/dashboard/employer" element={<EmployerDashboard />} />
           <Route path="/employer/update-profile" element={<UpdateEmployerProfile />} />
+          <Route path="/employer/job-details" element={<JobDetailsConvo/>} />
+
           <Route path="/employer/create-openings" element={<CreateJobForm />} />
           <Route path="/employer/created-jobs" element={<EmployerCreatedJobs />} />
           <Route path="/applications/employer/job/:id" element={<ReceivedApplicationsPage />} />
@@ -62,6 +66,7 @@ const App = () => {
           <Route path="/application/report-card/:id" element={<InterviewReportCard/>} />
           <Route path="/applications/report-card/all/:id" element={<AllScoreCards/>} />
           <Route path="/sheduled/interviews/:id" element={<ScheduledInterviews />} />
+          <Route path="/project-estimator" element={<ProjectEstimator/>} />
           
           <Route path="/employer/resume-score" element={<ResumeScoreAnalysis />} />
           <Route path="/employer/update-job/:id" element={<UpdateJob />} />

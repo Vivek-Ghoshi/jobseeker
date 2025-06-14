@@ -26,7 +26,7 @@ const AllListedJobs = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-black px-4 py-10 flex flex-col items-center gap-10">
+    <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] px-4 py-10 flex flex-col items-center gap-10">
       <motion.h1
         className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6"
         initial={{ opacity: 0, y: -30 }}
@@ -47,7 +47,7 @@ const isApplied = appliedJobIds.includes(String(job.id));
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="w-full max-w-4xl bg-[#111827] rounded-xl shadow-lg hover:shadow-sky-500/30 transition-all duration-300 p-6 sm:p-8 flex flex-col justify-between gap-6 border border-zinc-700"
+              className="w-full max-w-4xl bg-gradient-to-bl from-black via-gray-900 to-[#0f0f1a] rounded-xl shadow-lg hover:shadow-sky-500/30 transition-all duration-300 p-6 sm:p-8 flex flex-col justify-between gap-6 border border-zinc-700"
             >
               {/* Top Row */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

@@ -46,7 +46,7 @@ const AllApplications = () => {
   });
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-10 w-full">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-[#0f0f1a] text-white px-4 py-10 w-full">
       <motion.h1
         className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center"
         initial={{ opacity: 0, y: -20 }}
